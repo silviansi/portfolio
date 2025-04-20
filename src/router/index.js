@@ -1,12 +1,15 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHistory } from 'vue-router'
 
-const router = createRouter({ 
-    history: createWebHistory(),
-    routes: [
-        {
-            
-        }
-    ]
-});
+// Import komponen yang akan dijadikan halaman
+import Home from '@/components/Home.vue'
 
-export default router;
+const routes = [
+  { path: '/', name: 'Home', component: Home },
+]
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes,
+})
+
+export default router
