@@ -7,16 +7,23 @@
   
       <!-- Navigation Links -->
       <div class="space-x-8 py-2 text-sm font-medium">
-        <RouterLink to="/home" class="hover:text-pink-800">Home</RouterLink>
-        <RouterLink to="/projects" class="hover:text-pink-800">Projects</RouterLink>
-        <RouterLink to="/about" class="hover:text-pink-800">About</RouterLink>
-        <RouterLink to="/contact" class="hover:text-pink-800">Contact</RouterLink>
+        <RouterLink to="#home-section" class="hover:text-pink-800" @click="scrollToSection('#home-section')">Home</RouterLink>
+        <RouterLink to="#about-section" class="hover:text-pink-800" @click="scrollToSection('#home-section')">About</RouterLink>
+        <RouterLink to="#project-section" class="hover:text-pink-800" @click="scrollToSection('#home-section')">Project</RouterLink>
+        <RouterLink to="#contact-section" class="hover:text-pink-800" @click="scrollToSection('#home-section')">Contact</RouterLink>
       </div>
     </nav>
 </template>
   
 <script setup>
 import { RouterLink } from 'vue-router'
+
+const scrollToSection = (id) => {
+  const element = document.querySelector(id);
+  if (element) {
+    element.scrollIntoView({ behavior: 'smooth' });
+  }
+};
 </script>
   
 <style scoped>
