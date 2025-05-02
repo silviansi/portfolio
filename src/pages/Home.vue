@@ -14,6 +14,9 @@
         <!-- About -->
         <About />
 
+        <!-- Projects -->
+        <Project />
+
         <!-- Footer -->
         <Footer />
     
@@ -25,6 +28,7 @@ import Intro from '@/components/Intro.vue'
 import Navbar from '@/components/Navbar.vue'
 import Introduction  from '@/components/Introduction.vue'
 import About from '@/components/About.vue'
+import Project from '@/components/Project.vue'
 import Footer from '@/components/Footer.vue'
 import { ref, onMounted, onUnmounted } from 'vue'
 
