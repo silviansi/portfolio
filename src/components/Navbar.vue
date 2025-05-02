@@ -1,6 +1,6 @@
 <template>
     <nav
-    class="bg-gradient-to-r from-pink-500 via-fuchsia-600 to-purple-700 text-white px-6 py-3 rounded-full shadow-lg
+    class="bg-gradient-to-br from-purple-600/70 to-pink-600/70 text-white px-6 py-3 rounded-full shadow-lg
            flex items-center justify-center mx-auto max-w-4xl w-full transition-all duration-300"
     :class="{ 'bg-opacity-90 backdrop-blur-md': isScrolled }"
     >
