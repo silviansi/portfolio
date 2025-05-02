@@ -19,7 +19,7 @@
                         data-aos="fade-up"
                         class="transition duration-300 transform hover:scale-105
                                 p-4 rounded-xl flex items-center justify-center 
-                                bg-gradient-to-br from-purple-600/30 to-pink-600/30 backdrop-blur-md 
+                                bg-gradient-to-br from-purple-600/20 to-pink-600/20 backdrop-blur-md 
                                 hover:shadow-[0_0_15px_3px_rgba(236,72,153,0.6)]">
                         <img :src="skill.image" alt="Skill logo" class="w-10 max-h-10 object-contain" />
                     </div>
