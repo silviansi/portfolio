@@ -140,6 +140,17 @@ export default {
           demo: "",
           github: "https://gitlab.com/silviansi/simkerma-itsk",
         },
+        {
+          name: "Sistem Informasi Laundry",
+          images: [
+            "/images/iclean-1.png",
+            "/images/iclean-2.png",
+            "/images/iclean-3.png",
+          ],
+          description: "A laundry management system with user and admin features, built with Javascript.",
+          demo: "https://icleann.netlify.app/",
+          github: "https://github.com/silviansi/final-project-1-group1",
+        },
       ],
       selectedProject: null,
       activeImage: 0,
