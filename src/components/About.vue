@@ -1,106 +1,138 @@
 <template>
-    <section id="about-section" class="py-16 text-white">
-        <div class="container mx-auto px-4">
+    <section id="about" class="bg-white text-gray-800">
 
-            <!-- Skills Section -->
-            <div class="mb-10 flex flex-col md:flex-row md:items-start md:justify-between gap-10">
-                <div class="absolute w-86 h-86 bg-pink-500 rounded-full blur-3xl opacity-30"></div>
+        <section class="py-20 px-6 max-w-4xl mx-auto">
+            <div class="text-center mb-10" data-aos="fade-up">
+                <h2 class="text-5xl font-bold text-gray-900 uppercase tracking-wide border-b pb-4 inline-block">
+                    Hello, I'm Silvia
+                </h2>
+            </div>
+
+            <article class="relative bg-white p-6 text-justify text-gray-800 leading-relaxed shadow-md border border-gray-200"
+            data-aos="fade-up"
+            data-aos-delay="200"
+            >
+                <p class="first-letter:text-5xl first-letter:font-bold first-letter:float-left first-letter:mr-3 first-letter:text-pink-500">
+                    As a passionate and detail-oriented Web Developer, I specialize in creating seamless and user-friendly web experiences. With a deep understanding of front-end technologies like HTML, CSS, and JavaScript, as well as a strong foundation in back-end development, I strive to build dynamic, responsive websites and applications. My goal is to leverage my technical skills and creative mindset to deliver innovative solutions that cater to users' needs and ensure an enjoyable browsing experience. Let's collaborate to bring your digital ideas to life!
+                </p>
+            </article>
+        </section>
+
+        <div class="max-w-6xl mx-auto px-6">
+
+        <!-- SKILLS -->
+        <section class="mb-10 py-20">
+            <div class="text-center mb-10">
+                <h2 class="text-5xl font-bold uppercase border-b-2 border-gray-300 inline-block pb-2">
+                    Technical Skills
+                </h2>
+                <p class="text-gray-500 mt-2 italic">A snapshot of tools I master</p>
+            </div>
+
+            <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-6">
+                <div
+                    v-for="(skill, index) in skills"
+                    :key="index"
+                    class="p-4 bg-white border border-gray-200 shadow-sm rounded-lg flex justify-center items-center hover:shadow-md transition"
+                >
+                    <img :src="skill.image" alt="Skill" class="w-12 h-12 object-contain" />
+                </div>
+            </div>
+        </section>
+
+        <!-- EXPERIENCE & EDUCATION -->
+        <section class="py-20 bg-white text-gray-800">
+            <div class="max-w-6xl mx-auto px-3 grid md:grid-cols-2 gap-16">
+
+            <!-- Internship & Trainings -->
+            <div>
+                <h2 class="text-3xl font-bold uppercase border-b-4 border-fuchsia-500 inline-block pb-1 mb-8">
+                    Internship & Trainings
+                </h2>
+            <div class="space-y-10 border-l-2 border-gray-300 pl-6">
+
+                <div class="relative">
+                    <h3 class="text-xl font-semibold mb-1">Full Stack Web Developer - Trainings</h3>
+                    <p class="text-sm text-fuchsia-700 font-medium">PT. Arkatama Multi Solusindo (Feb 2024 – Jul 2024)</p>
+                    <p class="text-sm text-justify mt-2">
+                        Studied web development using Laravel framework and MySQL database.
+                        Worked on a final group project, contributing as a front-end developer, responsible for implementing responsive user interfaces and ensuring seamless user experience.
+                    </p>
+                </div>
+
+                <div class="relative">
+                    <h3 class="text-xl font-semibold mb-1">Full Stack Web Developer - Internship</h3>
+                    <p class="text-sm text-fuchsia-700 font-medium">PT. Pabrik Gula Candi Baru (Sep 2023 – Des 2023)</p>
+                    <p class="text-sm text-justify mt-2">
+                        Assisted in merging multiple Excel data files and preparing presentation materials.
+                        Designed and implemented a web-based loan and profit-sharing system, from wireframe to web development, focusing on usability and functionality.
+                    </p>
+                </div>
+
+                <div class="relative">
+                    <h3 class="text-xl font-semibold mb-1">Web Developer Program - Trainings</h3>
+                    <p class="text-sm text-fuchsia-700 font-medium">PT. Hacktivate Teknologi Indonesia (Feb 2023 – Jul 2023)</p>
+                    <p class="text-sm text-justify mt-2">
+                        Learned full-stack web development fundamentals from scratch, including HTML, CSS, and JavaScript.
+                        Built several interactive web interfaces and completed a final project using pure JavaScript without any frameworks, focusing on clean code and responsive design.
+                    </p>
+                </div>
+
+            </div>
+            </div>
+
+            <!-- Education -->
+            <div>
+                <h2 class="text-3xl font-bold uppercase border-b-4 border-pink-500 inline-block pb-1 mb-8">
+                    Education
+                </h2>
                 
-                <div class="flex flex-col md:flex-row min-h-[300px] gap-10">
-                    <div class="md:w-1/3 flex flex-col items-center justify-center text-center">
-                        <h3 class="text-5xl font-bold mb-4">Skills</h3>
+                <div class="space-y-10 border-l-2 border-gray-300 pl-6">
+
+                    <div class="relative">
+                        <h3 class="text-xl font-semibold mb-1">Universitas Negeri Surabaya</h3>
+                        <p class="text-sm text-pink-700 font-medium">S1 Teknik Informatika (2020 – 2025)</p>
+                        <p class="text-sm text-pink-900 font-medium">GPA: 3.81</p>
+                        <p class="text-sm text-justify mt-2">
+                            Focused on Data Science and Web Development, with in-depth study of programming, data analysis, and statistical modeling.
+                            Completed a thesis project on building a web-based stunting detection system for toddlers using the Random Forest algorithm, combining health data insights with predictive modeling techniques.
+                        </p>
                     </div>
-                </div>
 
-                <div class="md:w-2/3 grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 gap-6">
-                    <div
-                        v-for="(skill, index) in skills"
-                        :key="index"
-                        data-aos="fade-up"
-                        class="transition duration-300 transform hover:scale-105
-                                p-4 rounded-xl flex items-center justify-center 
-                                bg-gradient-to-br from-purple-600/20 to-pink-600/20 backdrop-blur-md 
-                                hover:shadow-[0_0_15px_3px_rgba(236,72,153,0.6)]">
-                        <img :src="skill.image" alt="Skill logo" class="w-10 max-h-10 object-contain" />
+                    <div class="relative">
+                        <h3 class="text-xl font-semibold mb-1">SMA Negeri 1 Krembung</h3>
+                        <p class="text-sm text-pink-700 font-medium">Acceleration Science Program (2018 – 2020)</p>
+                        <p class="text-sm text-justify mt-2">
+                            Completed high school education in just 2 years through the Acceleration Program, designed for students with outstanding academic performance and high learning capacity. 
+                            Gained a solid foundation in science and mathematics with a strong emphasis on discipline, critical thinking, and time management.
+                        </p>
                     </div>
-                </div>    
-            </div>
 
-            <!-- Experience Section -->
-            <div class="py-8">
-            <div class="container mx-auto px-4">
-                <h2 class="text-4xl font-bold text-center mb-12">Internship & Trainings</h2>
-
-                <div class="relative border-l-2 border-fuchsia-500 ml-6">
-                <div class="mb-12 ml-6 relative">
-                    <div class="absolute -left-9 top-0 w-6 h-6 bg-fuchsia-500 rounded-full border-4 border-white"></div>
-                    <h3 class="text-2xl font-semibold text-gray-400">Full Stack Web Developer - Trainings</h3>
-                    <p class="text-blue-400 font-medium">PT. Arkatama Multi Solusindo (Feb 2024–Jul 2024)</p>
-                    <p class="text-gray-600 mt-2">
-                    Mengembangkan dan mengoptimasi API menggunakan Laravel, serta membangun sistem informasi kerja sama.
-                    </p>
-                </div>
-
-                <div class="mb-12 ml-6 relative">
-                    <div class="absolute -left-9 top-0 w-6 h-6 bg-fuchsia-500 rounded-full border-4 border-white"></div>
-                    <h3 class="text-2xl font-semibold text-gray-400">Full Stack Web Developer - Internship</h3>
-                    <p class="text-blue-400 font-medium">PT. Pabrik Gula Candi Baru (Sep 2023–Des 2023)</p>
-                    <p class="text-gray-600 mt-2">
-                    Mengembangkan dan mengoptimasi API menggunakan Laravel, serta membangun sistem informasi kerja sama.
-                    </p>
-                </div>
-
-                <div class="ml-6 relative">
-                    <div class="absolute -left-9 top-0 w-6 h-6 bg-fuchsia-500 rounded-full border-4 border-white"></div>
-                    <h3 class="text-2xl font-semibold text-gray-400">Web Developer - Trainings</h3>
-                    <p class="text-blue-400 font-medium">PT. Hacktivate Teknologi Indonesia (Feb 2023–Jul 2023)</p>
-                    <p class="text-gray-600 mt-2">
-                    Mempelajari pengembangan web menggunakan HTML, CSS, JavaScript, dan membuat proyek akhir berbasis React dan Node.js.
-                    </p>
-                </div>
                 </div>
             </div>
+
             </div>
+        </section>
 
-            <!-- Education Section -->
-            <div class="py-8">
-            <div class="container mx-auto px-4">
-                <h2 class="text-4xl font-bold text-center mb-12">Education</h2>
 
-                <div class="relative border-l-2 border-pink-500 ml-6">
-                <div class="mb-12 ml-6 relative">
-                    <div class="absolute -left-9 top-0 w-6 h-6 bg-pink-500 rounded-full border-4 border-white"></div>
-                    <h3 class="text-2xl font-semibold text-gray-400">Universitas Negeri Surabaya</h3>
-                    <p class="text-pink-400 font-medium">S1 Teknik Informatika (2020–2025)</p>
-                </div>
-
-                <div class="ml-6 relative">
-                    <div class="absolute -left-9 top-0 w-6 h-6 bg-pink-500 rounded-full border-4 border-white"></div>
-                    <h3 class="text-2xl font-semibold text-gray-400">SMA Negeri 1 Krembung</h3>
-                    <p class="text-pink-400 font-medium">Acceleration Science Program (2018–2020)</p>
-                </div>
-                </div>
-            </div>
-            </div>
-
-        </div>
+    </div>
     </section>
 </template>
 
 <script setup>
 const skills = [
-    { image: '/images/html.png' },
-    { image: '/images/css.png' },
-    { image: '/images/bootstrap.png' },
-    { image: '/images/javascript.png' },
-    { image: '/images/php.png' },
-    { image: '/images/laravel.png' },
-    { image: '/images/python.png' },
-    { image: '/images/vue.png' },
-    { image: '/images/tailwind.png' },
-    { image: '/images/mysql.png' },
-    { image: '/images/github.png' },
-    { image: '/images/gitlab.png' },
-    { image: '/images/figma.png' }
+  { image: '/images/html.png' },
+  { image: '/images/css.png' },
+  { image: '/images/javascript.png' },
+  { image: '/images/bootstrap.png' },
+  { image: '/images/php.png' },
+  { image: '/images/laravel.png' },
+  { image: '/images/python.png' },
+  { image: '/images/vue.png' },
+  { image: '/images/tailwind.png' },
+  { image: '/images/mysql.png' },
+  { image: '/images/github.png' },
+  { image: '/images/gitlab.png' },
+  { image: '/images/figma.png' }
 ]
 </script>
