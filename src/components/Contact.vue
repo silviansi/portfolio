@@ -1,5 +1,5 @@
 <template>
-  <section id="contact" class="py-20 text-gray-800">
+  <section id="contact" class="py-20">
     <div class="max-w-5xl mx-auto px-6">
       
       <!-- Title -->
@@ -9,7 +9,7 @@
       </div>
 
       <!-- Contact Info -->
-        <div class="bg-pink-50 border border-pink-200 rounded-xl p-8 shadow-md grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="bg-pink-300/20 dark:bg-purple-900/20 backdrop-blur-sm border border-pink-300/30 dark:border-purple-500/30 rounded-xl p-8 shadow-md grid grid-cols-1 md:grid-cols-2 gap-8">
 
         <!-- Left Column: Text Info -->
         <div class="space-y-6">
@@ -34,19 +34,19 @@
             <h3 class="text-xl font-semibold">Social Media</h3>
             <ul class="space-y-4">
             <li class="flex items-center gap-3">
-                <img src="/images/icon-instagram.png" class="w-6 h-6" alt="Instagram" />
+                <i class="fab fa-instagram"></i>
                 <a href="https://instagram.com/silviansi" target="_blank" class="text-pink-600 hover:underline">Instagram</a>
             </li>
             <li class="flex items-center gap-3">
-                <img src="/images/icon-linkedin.png" class="w-6 h-6" alt="LinkedIn" />
+                <i class="fab fa-linkedin"></i>
                 <a href="https://linkedin.com/in/silviansi" target="_blank" class="text-pink-600 hover:underline">LinkedIn</a>
             </li>
             <li class="flex items-center gap-3">
-                <img src="/images/icon-github.png" class="w-6 h-6" alt="GitHub" />
+                <i class="fab fa-github"></i>
                 <a href="https://github.com/silviansi" target="_blank" class="text-pink-600 hover:underline">GitHub</a>
             </li>
             <li class="flex items-center gap-3">
-                <img src="/images/icon-whatsapp.png" class="w-6 h-6" alt="WhatsApp" />
+                <i class="fab fa-whatsapp"></i>
                 <a href="https://wa.me/6281358811732" target="_blank" class="text-pink-600 hover:underline">WhatsApp</a>
             </li>
             </ul>
