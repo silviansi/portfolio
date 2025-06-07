@@ -1,14 +1,17 @@
 <template>
-  <section id="project" class="py-16 px-8 bg-white text-gray-800 max-w-6xl mx-auto">
-    <h2 class="text-5xl font-extrabold mb-12 tracking-tight border-b-4 border-pink-300 pb-4">
-      My Projects
-    </h2>
+  <section id="project" class="py-16 px-8 max-w-6xl mx-auto">
+    <div class="text-center mb-10">
+      <h2 class="text-5xl font-bold uppercase border-b-2 border-gray-300 inline-block pb-2">
+        My Projects
+      </h2>
+      <p class="text-gray-500 mt-2 italic">A showcase of my work, demonstrating my skills and creativity.</p>
+    </div>
 
     <div v-for="(project, index) in projects" :key="index" class="mb-16 shadow-lg rounded-2xl border border-pink-200 overflow-hidden">
       <div class="flex flex-col md:flex-row">
 
         <!-- Carousel in Laptop Screen -->
-        <div class="md:w-1/2 flex justify-center items-center bg-pink-50 p-8 relative">
+        <div class="md:w-1/2 flex justify-center items-center bg-pink-50 dark:bg-indigo-200 p-8 relative">
           <div class="laptop-frame relative">
             <div class="screen-image absolute">
               <img
@@ -36,12 +39,12 @@
         </div>
 
         <!-- Project Info -->
-        <div class="md:w-1/2 p-8 flex flex-col justify-between bg-white">
+        <div class="md:w-1/2 p-8 flex flex-col justify-between bg-white dark:bg-purple-900/20">
           <div>
             <h3 class="text-3xl font-bold mb-4 border-b border-pink-200 pb-2">
               {{ project.name }}
             </h3>
-            <p class="text-gray-700 mb-6 leading-relaxed">
+            <p class="text-gray-700 dark:text-gray-50 mb-6 leading-relaxed">
               {{ project.description }}
             </p>
 
@@ -50,7 +53,7 @@
               <div
                 v-for="(tech, i) in project.techStack"
                 :key="i"
-                class="flex items-center gap-2 bg-pink-50 text-pink-600 border border-pink-300 rounded-full py-1 px-3 text-sm font-medium shadow-sm"
+                class="flex items-center gap-2 bg-pink-50 dark:bg-purple-200 text-pink-600 border border-pink-300 rounded-full py-1 px-3 text-sm font-medium shadow-sm"
               >
                 <img :src="tech.icon" :alt="tech.name + ' icon'" class="w-5 h-5 object-contain"/>
                 <span>{{ tech.name }}</span>
@@ -103,11 +106,24 @@ const projects = [
       "/images/feminsight-3.png",
       "/images/feminsight-4.png",
       "/images/feminsight-5.png",
-      "/images/feminsight-6.png",
     ],
     description: "An educational web application focused on women’s health, including reproductive health, hormonal balance, nutrition, and mental well-being.",
     demo: "https://menstrual-cycle.vercel.app",
     github: "https://github.com/silviansi/feminsight",
+    techStack: [
+      { name: "Vue.js", icon: "images/vue.png" },
+      { name: "Tailwind CSS", icon: "images/tailwind.png" },
+    ]
+  },
+  {
+    name: "Photobooth Web",
+    images: [
+      "/images/photobooth-1.png",
+    ],
+    description:
+      "A web app for capturing photos using webcam, built with Vue.js and Tailwind CSS.",
+    demo: "https://photobooth-web.vercel.app/",
+    github: "https://github.com/silviansi/photobooth",
     techStack: [
       { name: "Vue.js", icon: "images/vue.png" },
       { name: "Tailwind CSS", icon: "images/tailwind.png" },
@@ -183,6 +199,21 @@ const projects = [
       { name: "CSS3", icon: "/images/css.png" },
     ],
   },
+  {
+    name: "eKos",
+    images: [
+      "/images/ekos-1.png",
+      "/images/ekos-2.png",
+    ],
+    description:
+      "A web app for managing boarding houses, built with Laravel & MySQL.",
+    github: "https://github.com/silviansi/ekos",
+    techStack: [
+      { name: "PHP", icon: "/images/php.png" },
+      { name: "MySQL", icon: "/images/mysql.png" },
+      { name: "Bootstrap", icon: "/images/bootstrap.png" }
+    ],
+  }
 ]
 
 const activeImage = ref(projects.map(() => 0))
