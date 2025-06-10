@@ -39,6 +39,7 @@
       <Intro />
       <Navbar />
       <About />
+      <Path />
       <Project />
       <Certificate />
       <Contact />
@@ -54,6 +55,7 @@ import { watchEffect, computed } from 'vue'
 import Intro from '@/components/Intro.vue'
 import Navbar from '@/components/Navbar.vue'
 import About from '@/components/About.vue'
+import Path from '@/components/Path.vue'
 import Project from '@/components/Project.vue'
 import Certificate from '@/components/Certificate.vue'
 import Contact from '@/components/Contact.vue'

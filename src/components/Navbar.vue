@@ -81,6 +81,7 @@ import {
   SunIcon,
   HomeIcon,
   UserIcon,
+  AcademicCapIcon,
   BriefcaseIcon,
   EnvelopeIcon
 } from '@heroicons/vue/24/outline'
@@ -98,6 +99,7 @@ const clearActiveItem = () => activeItem.value = null
 const navItems = [
   { icon: 'home', label: 'Home', href: '#home' },
   { icon: 'user', label: 'About', href: '#about' },
+  { icon: 'academic-cap', label: 'Path', href: '#experience' },
   { icon: 'briefcase', label: 'Projects', href: '#project' },
   { icon: 'envelope', label: 'Contact', href: '#contact' }
 ]
@@ -106,6 +108,7 @@ const navItems = [
 const icons = {
   home: HomeIcon,
   user: UserIcon,
+  'academic-cap': AcademicCapIcon,
   briefcase: BriefcaseIcon,
   envelope: EnvelopeIcon,
 }
