@@ -1,6 +1,6 @@
 <template>
   <section id="certificate" class="py-20">
-    <div class="max-w-6xl mx-auto px-6">
+    <div class="max-w-5xl mx-auto px-6">
       <!-- Section Title -->
       <div class="text-center mb-10">
         <h2 class="text-5xl font-bold uppercase border-b-2 border-gray-300 inline-block pb-2">
