@@ -2,12 +2,12 @@
   <section id="home" class="relative min-h-screen flex flex-col justify-center items-center text-center px-4">
      
     <!-- Name -->
-    <h1 ref="title" class="text-5xl sm:text-6xl font-bold tracking-tight z-10 mt-12">
+    <h1 ref="title" class="text-5xl sm:text-6xl font-bold tracking-tight z-10 mt-12 name-text">
       Silvia Nanda Syafa Iswahyudi
     </h1>
      
     <!-- Subtitle -->
-    <p ref="subtitle" class="text-lg sm:text-xl mt-4 font-light uppercase tracking-wide">
+    <p ref="subtitle" class="text-lg sm:text-xl mt-4 font-light uppercase tracking-wide subtitle-text">
       Full Stack Web Developer • Tech Enthusiast
     </p>
      
@@ -32,14 +32,24 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { gsap } from 'gsap'
+import { SplitText } from 'gsap/SplitText'
+
+// Register the SplitText plugin
+gsap.registerPlugin(SplitText)
 
 const title = ref(null)
 const subtitle = ref(null)
 const line = ref(null)
 const icons = ref(null)
 const quote = ref(null)
+
+// SplitText instances
+let titleSplit = null
+let subtitleSplit = null
+let titleAnimation = null
+let subtitleAnimation = null
 
 const socialIcons = [
   {
@@ -59,17 +69,55 @@ const socialIcons = [
   }
 ]
 
+// Function to setup SplitText
+const setupSplitText = () => {
+  // Revert previous splits if they exist
+  if (titleSplit) titleSplit.revert()
+  if (subtitleSplit) subtitleSplit.revert()
+  if (titleAnimation) titleAnimation.revert()
+  if (subtitleAnimation) subtitleAnimation.revert()
+  
+  // Create new splits
+  titleSplit = SplitText.create(title.value, { type: "chars" })
+  subtitleSplit = SplitText.create(subtitle.value, { type: "words" })
+}
+
+// Animation functions
+const animateNameChars = () => {
+  if (titleAnimation) titleAnimation.revert()
+  titleAnimation = gsap.from(titleSplit.chars, {
+    x: 150,
+    opacity: 0,
+    duration: 0.7, 
+    ease: "power4",
+    stagger: 0.04
+  })
+}
+
+const animateSubtitleWords = () => {
+  if (subtitleAnimation) subtitleAnimation.revert()
+  subtitleAnimation = gsap.from(subtitleSplit.words, {
+    y: -100,
+    opacity: 0,
+    rotation: "random(-80, 80)",
+    duration: 0.7, 
+    ease: "back",
+    stagger: 0.15
+  })
+}
+
 onMounted(() => {
   // Ensure DOM is fully loaded before starting animations
   gsap.delayedCall(0.1, () => {
-    // Set initial states
-    gsap.set([title.value, subtitle.value, line.value, quote.value], { opacity: 0 })
-    gsap.set(title.value, { y: 50, scale: 0.9 })
-    gsap.set(subtitle.value, { y: 30, x: -15 })
+    // Setup SplitText
+    setupSplitText()
+    
+    // Set initial states for other elements
+    gsap.set([line.value, quote.value], { opacity: 0 })
     gsap.set(line.value, { scaleX: 0, transformOrigin: 'center' })
     gsap.set(quote.value, { y: 30, x: 15 })
     
-    // Set initial state for icon links - much more subtle
+    // Set initial state for icon links
     if (icons.value && icons.value.children) {
       gsap.set(icons.value.children, { 
         opacity: 0, 
@@ -78,29 +126,17 @@ onMounted(() => {
       })
     }
 
-    // Create main timeline with smoother easing
+    // Create main timeline
     const tl = gsap.timeline({ 
       defaults: { ease: 'power2.out' },
-      delay: 0.2
+      delay: 0.3
     })
 
-    // Animate title with gentle bounce
-    tl.to(title.value, { 
-      opacity: 1, 
-      y: 0, 
-      scale: 1, 
-      duration: 1,
-      ease: 'back.out(1.2)'
-    })
+    // Start with name character animation
+    tl.add(() => animateNameChars())
     
-    // Animate subtitle with slide
-    .to(subtitle.value, { 
-      opacity: 1, 
-      y: 0, 
-      x: 0, 
-      duration: 0.8,
-      ease: 'power2.out'
-    }, "-=0.7")
+    // Then animate subtitle words
+    .add(() => animateSubtitleWords(), "-=0.2")
     
     // Animate line with scale
     .to(line.value, { 
@@ -108,9 +144,9 @@ onMounted(() => {
       scaleX: 1, 
       duration: 0.6,
       ease: 'power2.out'
-    }, "-=0.4")
+    }, "-=0.2")
     
-    // Animate icon links with subtle stagger - no rotation
+    // Animate icon links with subtle stagger
     .to(icons.value.children, {
       opacity: 1,
       y: 0,
@@ -121,7 +157,7 @@ onMounted(() => {
         from: "center"
       },
       ease: 'power2.out'
-    }, "-=0.2")
+    }, "-=0.3")
     
     // Animate quote with fade and slide
     .to(quote.value, { 
@@ -130,10 +166,10 @@ onMounted(() => {
       x: 0, 
       duration: 0.8,
       ease: 'power2.out'
-    }, "-=0.3")
+    }, "-=0.4")
 
-    // Add very subtle floating animation for icons after main animation
-    gsap.delayedCall(2, () => {
+    // Add subtle floating animation for icons after main animation
+    gsap.delayedCall(3, () => {
       if (icons.value && icons.value.children) {
         gsap.to(icons.value.children, {
           y: -3,
@@ -146,8 +182,8 @@ onMounted(() => {
       }
     })
 
-    // Add very subtle pulsing animation for the line
-    gsap.delayedCall(2.5, () => {
+    // Add subtle pulsing animation for the line
+    gsap.delayedCall(3.5, () => {
       gsap.to(line.value, {
         scaleX: 1.05,
         duration: 3,
@@ -156,7 +192,74 @@ onMounted(() => {
         repeat: -1
       })
     })
+
+    // Add hover effects for characters and words after animation completes
+    gsap.delayedCall(2, () => {
+      if (titleSplit && titleSplit.chars) {
+        titleSplit.chars.forEach(char => {
+          char.addEventListener('mouseenter', () => {
+            gsap.to(char, {
+              scale: 1.2,
+              color: '#f472b6',
+              duration: 0.3,
+              ease: 'power2.out'
+            })
+          })
+          
+          char.addEventListener('mouseleave', () => {
+            gsap.to(char, {
+              scale: 1,
+              color: 'inherit',
+              duration: 0.3,
+              ease: 'power2.out'
+            })
+          })
+        })
+      }
+
+      if (subtitleSplit && subtitleSplit.words) {
+        subtitleSplit.words.forEach(word => {
+          word.addEventListener('mouseenter', () => {
+            gsap.to(word, {
+              scale: 1.1,
+              color: '#f472b6',
+              rotation: 5,
+              duration: 0.3,
+              ease: 'power2.out'
+            })
+          })
+          
+          word.addEventListener('mouseleave', () => {
+            gsap.to(word, {
+              scale: 1,
+              color: 'inherit',
+              rotation: 0,
+              duration: 0.3,
+              ease: 'power2.out'
+            })
+          })
+        })
+      }
+    })
   })
+})
+
+// Handle window resize
+const handleResize = () => {
+  setupSplitText()
+}
+
+onMounted(() => {
+  window.addEventListener('resize', handleResize)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', handleResize)
+  // Clean up SplitText instances
+  if (titleSplit) titleSplit.revert()
+  if (subtitleSplit) subtitleSplit.revert()
+  if (titleAnimation) titleAnimation.revert()
+  if (subtitleAnimation) subtitleAnimation.revert()
 })
 </script>
 
@@ -171,10 +274,17 @@ h1 {
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Add hover glow effect to social icons */
-/* .hover\:text-pink-500:hover {
-  filter: drop-shadow(0 0 8px rgba(244, 114, 182, 0.6));
-} */
+/* Style for split characters and words */
+.name-text div {
+  display: inline-block;
+  cursor: pointer;
+}
+
+.subtitle-text div {
+  display: inline-block;
+  margin-right: 0.2em;
+  cursor: pointer;
+}
 
 /* Smooth cursor animation */
 @keyframes blink {
