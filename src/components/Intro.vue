@@ -1,33 +1,33 @@
 <template>
   <section id="home" class="relative min-h-screen flex flex-col justify-center items-center text-center px-4">
-     
+
     <!-- Name -->
     <h1 ref="title" class="text-5xl sm:text-6xl font-bold tracking-tight z-10 mt-12 name-text">
       Silvia Nanda Syafa Iswahyudi
     </h1>
-     
+
     <!-- Subtitle -->
-    <p ref="subtitle" class="text-lg sm:text-xl mt-4 font-light uppercase tracking-wide subtitle-text">
+    <p ref="subtitle" class="text-lg sm:text-xl m-2 font-light uppercase tracking-wide subtitle-text">
       Full Stack Web Developer • Tech Enthusiast
     </p>
-     
+
     <!-- Center line -->
-    <div ref="line" class="w-24 h-1 bg-pink-300 my-6 rounded"></div>
-     
+    <div ref="line" class="w-24 h-1 bg-gradient-to-r from-transparent via-teal-400 to-transparent rounded-full transform scale-x-0"></div>
+
     <!-- Social Media Icons -->
     <div ref="icons" class="flex space-x-6 text-2xl mt-4 z-10">
       <a v-for="(icon, i) in socialIcons" :key="i" :href="icon.href" target="_blank"
-         class="hover:text-pink-500 transition-all duration-300 p-3 rounded-full  hover:scale-110 transform" 
-         :aria-label="icon.label">
+          class="hover:text-teal-500 transition-all duration-300 p-3 rounded-full  hover:scale-110 transform" 
+          :aria-label="icon.label">
         <i :class="icon.class" style="font-size: 28px;"></i>
       </a>
     </div>
-     
+
     <!-- Short quote / editorial phrase -->
     <p ref="quote" class="mt-8 text-sm italic max-w-xl">
       "Designing interfaces is like crafting a story: thoughtful, full of feeling."
     </p>
-   
+
   </section>
 </template>
 
@@ -69,6 +69,26 @@ const socialIcons = [
   }
 ]
 
+// Font loading detection
+const waitForFonts = () => {
+  return new Promise((resolve) => {
+    if (document.fonts && document.fonts.ready) {
+      // Modern browsers with Font Loading API
+      document.fonts.ready.then(() => {
+        // Additional small delay to ensure everything is properly rendered
+        setTimeout(resolve, 100)
+      }).catch(() => {
+        // Fallback if font loading fails
+        setTimeout(resolve, 1000)
+      })
+    } else {
+      // Fallback for older browsers
+      // Wait for a reasonable time for fonts to load
+      setTimeout(resolve, 1500)
+    }
+  })
+}
+
 // Function to setup SplitText
 const setupSplitText = () => {
   // Revert previous splits if they exist
@@ -77,13 +97,26 @@ const setupSplitText = () => {
   if (titleAnimation) titleAnimation.revert()
   if (subtitleAnimation) subtitleAnimation.revert()
   
-  // Create new splits
-  titleSplit = SplitText.create(title.value, { type: "chars" })
-  subtitleSplit = SplitText.create(subtitle.value, { type: "words" })
+  // Ensure elements exist before creating splits
+  if (!title.value || !subtitle.value) return
+  
+  try {
+    // Create new splits
+    titleSplit = SplitText.create(title.value, { type: "chars" })
+    subtitleSplit = SplitText.create(subtitle.value, { type: "words" })
+  } catch (error) {
+    console.warn('SplitText creation failed:', error)
+    // Fallback: continue without SplitText
+    return false
+  }
+  
+  return true
 }
 
 // Animation functions
 const animateNameChars = () => {
+  if (!titleSplit || !titleSplit.chars) return
+  
   if (titleAnimation) titleAnimation.revert()
   titleAnimation = gsap.from(titleSplit.chars, {
     x: 150,
@@ -95,6 +128,8 @@ const animateNameChars = () => {
 }
 
 const animateSubtitleWords = () => {
+  if (!subtitleSplit || !subtitleSplit.words) return
+  
   if (subtitleAnimation) subtitleAnimation.revert()
   subtitleAnimation = gsap.from(subtitleSplit.words, {
     y: -100,
@@ -106,94 +141,119 @@ const animateSubtitleWords = () => {
   })
 }
 
-onMounted(() => {
-  // Ensure DOM is fully loaded before starting animations
-  gsap.delayedCall(0.1, () => {
-    // Setup SplitText
-    setupSplitText()
-    
-    // Set initial states for other elements
-    gsap.set([line.value, quote.value], { opacity: 0 })
-    gsap.set(line.value, { scaleX: 0, transformOrigin: 'center' })
-    gsap.set(quote.value, { y: 30, x: 15 })
-    
-    // Set initial state for icon links
-    if (icons.value && icons.value.children) {
-      gsap.set(icons.value.children, { 
-        opacity: 0, 
-        y: 20, 
-        scale: 0.8
-      })
-    }
+// Fallback animations without SplitText
+const animateTitleFallback = () => {
+  gsap.from(title.value, {
+    x: 150,
+    opacity: 0,
+    duration: 0.8,
+    ease: "power4"
+  })
+}
 
-    // Create main timeline
-    const tl = gsap.timeline({ 
-      defaults: { ease: 'power2.out' },
-      delay: 0.3
+const animateSubtitleFallback = () => {
+  gsap.from(subtitle.value, {
+    y: -50,
+    opacity: 0,
+    duration: 0.8,
+    ease: "back"
+  })
+}
+
+// Main animation function
+const startAnimations = async () => {
+  // Wait for fonts to load
+  await waitForFonts()
+  
+  // Setup SplitText
+  const splitTextSuccess = setupSplitText()
+  
+  // Set initial states for other elements
+  gsap.set([line.value, quote.value], { opacity: 0 })
+  gsap.set(line.value, { scaleX: 0, transformOrigin: 'center' })
+  gsap.set(quote.value, { y: 30, x: 15 })
+  
+  // Set initial state for icon links
+  if (icons.value && icons.value.children) {
+    gsap.set(icons.value.children, { 
+      opacity: 0, 
+      y: 20, 
+      scale: 0.8
     })
+  }
 
-    // Start with name character animation
+  // Create main timeline
+  const tl = gsap.timeline({ 
+    defaults: { ease: 'power2.out' },
+    delay: 0.3
+  })
+
+  // Start with name animation (SplitText or fallback)
+  if (splitTextSuccess) {
     tl.add(() => animateNameChars())
-    
-    // Then animate subtitle words
     .add(() => animateSubtitleWords(), "-=0.2")
-    
-    // Animate line with scale
-    .to(line.value, { 
-      opacity: 1,
-      scaleX: 1, 
-      duration: 0.6,
-      ease: 'power2.out'
-    }, "-=0.2")
-    
-    // Animate icon links with subtle stagger
-    .to(icons.value.children, {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      duration: 0.5,
-      stagger: {
-        amount: 0.3,
-        from: "center"
-      },
-      ease: 'power2.out'
-    }, "-=0.3")
-    
-    // Animate quote with fade and slide
-    .to(quote.value, { 
-      opacity: 1, 
-      y: 0, 
-      x: 0, 
-      duration: 0.8,
-      ease: 'power2.out'
-    }, "-=0.4")
+  } else {
+    tl.add(() => animateTitleFallback())
+    .add(() => animateSubtitleFallback(), "-=0.2")
+  }
+  
+  // Animate line with scale
+  tl.to(line.value, { 
+    opacity: 1,
+    scaleX: 1, 
+    duration: 0.6,
+    ease: 'power2.out'
+  }, "-=0.2")
+  
+  // Animate icon links with subtle stagger
+  .to(icons.value.children, {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    duration: 0.5,
+    stagger: {
+      amount: 0.3,
+      from: "center"
+    },
+    ease: 'power2.out'
+  }, "-=0.3")
+  
+  // Animate quote with fade and slide
+  .to(quote.value, { 
+    opacity: 1, 
+    y: 0, 
+    x: 0, 
+    duration: 0.8,
+    ease: 'power2.out'
+  }, "-=0.4")
 
-    // Add subtle floating animation for icons after main animation
-    gsap.delayedCall(3, () => {
-      if (icons.value && icons.value.children) {
-        gsap.to(icons.value.children, {
-          y: -3,
-          duration: 3,
-          ease: 'power2.inOut',
-          stagger: 0.1,
-          yoyo: true,
-          repeat: -1
-        })
-      }
-    })
-
-    // Add subtle pulsing animation for the line
-    gsap.delayedCall(3.5, () => {
-      gsap.to(line.value, {
-        scaleX: 1.05,
+  // Add subtle floating animation for icons after main animation
+  gsap.delayedCall(3, () => {
+    if (icons.value && icons.value.children) {
+      gsap.to(icons.value.children, {
+        y: -3,
         duration: 3,
         ease: 'power2.inOut',
+        stagger: 0.1,
         yoyo: true,
         repeat: -1
       })
-    })
+    }
+  })
 
-    // Add hover effects for characters and words after animation completes
+  // Add subtle pulsing animation for the line
+  gsap.delayedCall(3.5, () => {
+    gsap.to(line.value, {
+      scaleX: 1.05,
+      duration: 3,
+      ease: 'power2.inOut',
+      yoyo: true,
+      repeat: -1
+    })
+  })
+
+  // Add hover effects for characters and words after animation completes (only if SplitText worked)
+  if (splitTextSuccess) {
     gsap.delayedCall(2, () => {
       if (titleSplit && titleSplit.chars) {
         titleSplit.chars.forEach(char => {
@@ -241,20 +301,31 @@ onMounted(() => {
         })
       }
     })
-  })
-})
+  }
+}
 
 // Handle window resize
 const handleResize = () => {
-  setupSplitText()
+  // Debounce resize events
+  clearTimeout(handleResize.timeoutId)
+  handleResize.timeoutId = setTimeout(() => {
+    setupSplitText()
+  }, 250)
 }
 
 onMounted(() => {
+  // Start animations after a brief delay to ensure DOM is ready
+  gsap.delayedCall(0.1, startAnimations)
+  
+  // Add resize listener
   window.addEventListener('resize', handleResize)
 })
 
 onBeforeUnmount(() => {
+  // Clean up
   window.removeEventListener('resize', handleResize)
+  clearTimeout(handleResize.timeoutId)
+  
   // Clean up SplitText instances
   if (titleSplit) titleSplit.revert()
   if (subtitleSplit) subtitleSplit.revert()
