@@ -1,115 +1,130 @@
 <template>
-  <div
-    class="fixed bottom-0 left-1/2 transform -translate-x-1/2 z-50 bg-white/90 dark:bg-[#101010] backdrop-blur-xl border-gray-200/50 dark:border-gray-700/50 rounded-full shadow-2xl px-4 py-2 flex items-center gap-1 transition-all duration-500 hover:shadow-3xl hover:scale-105"
+  <nav
+    ref="navbar"
+    class="fixed w-full h-12 bg-pink-100 border border-black text-black font-['Press_Start_2P'] text-[10px] shadow-md"
   >
-    <!-- Navigation Items -->
-    <a 
-      v-for="(item, index) in navItems" 
-      :key="item.icon"
-      :href="item.href" 
-      @mouseenter="setActiveItem(index)"
-      @mouseleave="clearActiveItem"
-      class="relative w-9 h-9 flex items-center justify-center group hover:mr-20 transition-all duration-300 rounded-lg hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 dark:hover:from-blue-900/30 dark:hover:to-purple-900/30 hover:shadow-lg hover:scale-100 transform"
-      :class="{ 
-        'bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900/50 dark:to-purple-900/50 shadow-md scale-105': activeItem === index 
-      }"
-    >
-      <!-- Extended hover area to prevent shaking -->
-      <div class="absolute inset-0 w-24 h-9 -right-16"></div>
-      
-      <!-- Floating tooltip -->
-      <div
-        class="absolute left-full top-1/2 -translate-y-1/2 ml-2 whitespace-nowrap bg-gradient-to-r from-gray-900 to-gray-800 dark:from-gray-100 dark:to-gray-200 text-white dark:text-gray-900 text-xs px-3 py-1.5 rounded-lg shadow-xl opacity-0 translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 pointer-events-none z-20 transition-all duration-300 transform"
-        :class="{ 'opacity-100 translate-x-0': activeItem === index }"
-      >
-        {{ item.label }}
-        <!-- Tooltip arrow -->
-        <div class="absolute left-0 top-1/2 -translate-x-1 -translate-y-1/2 w-1.5 h-1.5 bg-gray-900 dark:bg-gray-100 rotate-45"></div>
+    <div class="flex h-8 items-center justify-between px-5 py-1 border-b border-black">
+      <!-- Browser buttons -->
+      <div class="flex gap-2">
+        <div class="w-3 h-3 bg-red-500 rounded-full border border-black"></div>
+        <div class="w-3 h-3 bg-yellow-400 rounded-full border border-black"></div>
+        <div class="w-3 h-3 bg-green-500 rounded-full border border-black"></div>
       </div>
 
-      <!-- Icon with glow effect -->
-      <component 
-        :is="icons[item.icon]" 
-        class="w-5 h-5 transition-all duration-300 relative z-10"
-        :class="activeItem === index 
-          ? 'text-blue-600 dark:text-blue-400 drop-shadow-lg' 
-          : 'text-gray-600 dark:text-gray-300 group-hover:text-blue-500 dark:group-hover:text-blue-400 group-hover:drop-shadow-md'"
-      />
-      
-      <!-- Subtle glow background -->
-      <div 
-        class="absolute inset-0 rounded-lg bg-gradient-to-r from-blue-400/20 to-purple-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10 blur-sm"
-      ></div>
-    </a>
+      <!-- Tab menu -->
+      <div class="flex gap-2 mt-2">
+        <div
+          v-for="item in navItems"
+          :key="item.name"
+          class="bg-pink-200 border border-b-0 border-black px-2 py-1 rounded-t-md cursor-pointer hover:bg-pink-300 transition"
+        >
+          <a :href="item.href">{{ item.name.toUpperCase() }}</a>
+        </div>
+      </div>
 
-    <!-- Divider -->
-    <div class="w-px h-6 bg-gradient-to-b from-transparent via-gray-300 dark:via-gray-600 to-transparent mx-1"></div>
+      <!-- Search bar -->
+      <div class="flex items-center space-x-1 bg-white border border-black px-2 py-[2px]">
+        <MagnifyingGlassIcon class="w-3 h-3 text-black" />
+        <span>LOOKING FOR ATTENTION !!!</span>
+      </div>
 
-    <!-- Toggle Dark Mode -->
-    <button 
-      @click="toggleDarkMode()" 
-      class="relative group w-9 h-9 flex items-center justify-center rounded-lg hover:bg-gradient-to-r hover:from-amber-50 hover:to-orange-50 dark:hover:from-amber-900/30 dark:hover:to-orange-900/30 hover:shadow-lg transition-all duration-300 transform hover:scale-110"
-    >
-      <!-- Icon -->
-      <div class="relative transition-transform duration-500" :class="{ 'rotate-180': isDark }">
-        <component
-          :is="isDark ? SunIcon : MoonIcon"
-          class="w-5 h-5 transition-all duration-300"
-          :class="isDark ? 'text-amber-500 dark:text-amber-400 drop-shadow-lg' : 'text-gray-600 dark:text-gray-300 group-hover:text-amber-500 dark:group-hover:text-amber-400'"
+      <!-- Minimize/Close -->
+      <div class="flex items-center space-x-1">
+        <div class="w-5 h-5 border border-black bg-yellow-200 flex items-center justify-center">–</div>
+        <div class="w-5 h-5 border border-black bg-red-500 flex items-center justify-center">×</div>
+      </div>
+    </div>
+
+    <!-- Address Bar -->
+    <div class="flex items-center justify-between px-6 py-2 border-b border-black bg-pink-200">
+      <div class="flex items-center space-x-2">
+        <ArrowPathIcon class="w-4 h-4 text-black" />
+        <input
+          type="text"
+          class="w-[260px] h-5 bg-white border border-black rounded-sm px-2 py-3 text-[10px] font-mono"
+          value="https://www.portfolio.com"
+          readonly
         />
       </div>
+      <!-- Icons replaced -->
+      <div class="flex items-center gap-2">
+        <a
+          href="https://github.com/silviansi"
+          target="_blank"
+          class="w-6 h-6 text-black border border-black bg-white p-[2px] flex items-center justify-center"
+        >
+          <i class="fab fa-github text-[10px]"></i>
+        </a>
+        <a
+          href="https://linkedin.com/in/silviansi"
+          target="_blank"
+          class="w-6 h-6 text-blue-600 border border-black bg-white p-[2px] flex items-center justify-center"
+        >
+          <i class="fab fa-linkedin-in text-[10px]"></i>
+        </a>
+      </div>
+    </div>
 
-      <!-- Tooltip -->
-      <div
-        class="absolute -top-10 left-1/2 -translate-x-1/2 text-xs whitespace-nowrap bg-gradient-to-r from-gray-900 to-gray-800 dark:from-gray-100 dark:to-gray-200 text-white dark:text-gray-900 px-2.5 py-1.5 rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0"
-      >
-        {{ isDark ? 'Switch to Light' : 'Switch to Dark' }}
-        <div class="absolute top-full left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-gray-900 dark:bg-gray-100 rotate-45 -mt-0.5"></div>
+    <!-- Mobile Navbar -->
+    <div class="sm:hidden fixed top-0 left-0 w-full z-50">
+      <!-- Top bar -->
+      <div class="flex items-center justify-between bg-pink-100 border border-black h-12 px-4 text-black font-['Press_Start_2P'] text-[10px]">
+        <!-- Left: Logo / Title -->
+        <div class="flex gap-2">
+          <div class="w-3 h-3 bg-red-500 rounded-full border border-black"></div>
+          <div class="w-3 h-3 bg-yellow-400 rounded-full border border-black"></div>
+          <div class="w-3 h-3 bg-green-500 rounded-full border border-black"></div>
+        </div>
+
+        <!-- Right: Hamburger Icon -->
+        <button @click="isMenuOpen = !isMenuOpen" class="w-6 h-6 border border-black flex items-center justify-center bg-white">
+          <Bars3Icon v-if="!isMenuOpen" class="w-4 h-4 text-black" />
+          <XMarkIcon v-else class="w-4 h-4 text-black" />
+        </button>
       </div>
 
-      <!-- Glow -->
-      <div class="absolute inset-0 rounded-lg bg-gradient-to-r from-amber-400/20 to-orange-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10 blur-sm"></div>
-    </button>
-  </div>
+      <!-- Dropdown menu -->
+      <div v-if="isMenuOpen" class="bg-pink-200 border-x border-b border-black text-[10px]">
+        <ul class="flex flex-col text-center divide-y divide-black">
+          <li v-for="item in navItems" :key="item.name" class="py-2 hover:bg-pink-300">
+            <a :href="item.href">{{ item.name.toUpperCase() }}</a>
+          </li>
+        </ul>
+        <div class="flex justify-center gap-4 py-2 border-t border-black">
+          <a href="https://github.com/silviansi" target="_blank" class="w-6 h-6 border border-black bg-white flex items-center justify-center">
+            <i class="fab fa-github text-[10px]"></i>
+          </a>
+          <a href="https://linkedin.com/in/silviansi" target="_blank" class="w-6 h-6 border border-black bg-white text-blue-600 flex items-center justify-center">
+            <i class="fab fa-linkedin-in text-[10px]"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import { useDark, useToggle } from '@vueuse/core'
 import {
-  MoonIcon,
-  SunIcon,
-  HomeIcon,
-  UserIcon,
-  AcademicCapIcon,
-  BriefcaseIcon,
-  EnvelopeIcon
-} from '@heroicons/vue/24/outline'
+  MagnifyingGlassIcon,
+  ArrowPathIcon,
+  Bars3Icon,
+  XMarkIcon
+} from '@heroicons/vue/24/solid'
 
-// VueUse: Dark mode toggle
-const isDark = useDark()
-const toggleDarkMode = useToggle(isDark)
+const navbar = ref(null)
 
-// Active nav item
-const activeItem = ref(null)
-const setActiveItem = (index) => activeItem.value = index
-const clearActiveItem = () => activeItem.value = null
-
-// Nav Items
 const navItems = [
-  { icon: 'home', label: 'Home', href: '#home' },
-  { icon: 'user', label: 'About', href: '#about' },
-  { icon: 'academic-cap', label: 'Path', href: '#experience' },
-  { icon: 'briefcase', label: 'Projects', href: '#project' },
-  { icon: 'envelope', label: 'Contact', href: '#contact' }
+  { name: 'Home', href: '#home' },
+  { name: 'About', href: '#about' },
+  { name: 'Path', href: '#path' },
+  { name: 'Project', href: '#project' },
+  { name: 'Contact', href: '#contact' },
 ]
 
-// Icon mapping
-const icons = {
-  home: HomeIcon,
-  user: UserIcon,
-  'academic-cap': AcademicCapIcon,
-  briefcase: BriefcaseIcon,
-  envelope: EnvelopeIcon,
-}
+const isMenuOpen = ref(false)
 </script>
+
+<style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+</style>
