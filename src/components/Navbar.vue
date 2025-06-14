@@ -1,7 +1,7 @@
 <template>
   <nav
     ref="navbar"
-    class="fixed w-full h-12 bg-pink-100 border border-black text-black font-['Press_Start_2P'] text-[10px] shadow-md"
+    class="fixed z-50 w-full h-12 bg-pink-100 border border-black text-black font-['Press_Start_2P'] text-[10px] shadow-md"
   >
     <div class="flex h-8 items-center justify-between px-5 py-1 border-b border-black">
       <!-- Browser buttons -->
@@ -30,8 +30,8 @@
 
       <!-- Minimize/Close -->
       <div class="flex items-center space-x-1">
-        <div class="w-5 h-5 border border-black bg-yellow-200 flex items-center justify-center">–</div>
-        <div class="w-5 h-5 border border-black bg-red-500 flex items-center justify-center">×</div>
+        <MinusIcon class="w-5 h-5 border border-black bg-yellow-200 flex items-center justify-center"></MinusIcon>
+        <XMarkIcon class="w-5 h-5 border border-black bg-red-500 flex items-center justify-center"></XMarkIcon>
       </div>
     </div>
 
@@ -46,7 +46,8 @@
           readonly
         />
       </div>
-      <!-- Icons replaced -->
+
+      <!-- Icons sosial media -->
       <div class="flex items-center gap-2">
         <a
           href="https://github.com/silviansi"
@@ -62,6 +63,11 @@
         >
           <i class="fab fa-linkedin-in text-[10px]"></i>
         </a>
+
+        <!-- Digital Clock -->
+        <span class="ml-2 font-mono text-[10px] bg-white px-2 py-1 border border-black">
+          {{ timeNow }}
+        </span>
       </div>
     </div>
 
@@ -104,10 +110,11 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import {
   MagnifyingGlassIcon,
   ArrowPathIcon,
+  MinusIcon,
   Bars3Icon,
   XMarkIcon
 } from '@heroicons/vue/24/solid'
@@ -121,6 +128,21 @@ const navItems = [
   { name: 'Project', href: '#project' },
   { name: 'Contact', href: '#contact' },
 ]
+
+const timeNow = ref('')
+
+onMounted(() => {
+  const updateClock = () => {
+    const now = new Date()
+    const hours = String(now.getHours()).padStart(2, '0')
+    const minutes = String(now.getMinutes()).padStart(2, '0')
+    const seconds = String(now.getSeconds()).padStart(2, '0')
+    timeNow.value = `${hours}:${minutes}:${seconds}`
+  }
+
+  updateClock()
+  setInterval(updateClock, 1000)
+})
 
 const isMenuOpen = ref(false)
 </script>
