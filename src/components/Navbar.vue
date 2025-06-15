@@ -1,47 +1,53 @@
 <template>
   <nav
     ref="navbar"
-    class="fixed z-50 w-full h-12 bg-pink-100 border border-black text-black font-['Press_Start_2P'] text-[10px] shadow-md"
+    class="fixed z-50 w-full h-12 bg-pink-200 text-black font-['Press_Start_2P'] text-[10px] shadow-md"
   >
-    <div class="flex h-8 items-center justify-between px-5 py-1 border-b border-black">
+    <div class="flex h-8 items-center justify-between px-5 py-1">
       <!-- Browser buttons -->
       <div class="flex gap-2">
-        <div class="w-3 h-3 bg-red-500 rounded-full border border-black"></div>
-        <div class="w-3 h-3 bg-yellow-400 rounded-full border border-black"></div>
-        <div class="w-3 h-3 bg-green-500 rounded-full border border-black"></div>
+        <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+        <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
+        <div class="w-3 h-3 bg-green-500 rounded-full"></div>
       </div>
 
       <!-- Tab menu -->
-      <div class="flex gap-2 mt-2">
-        <div
+      <div class="flex gap-2 mt-3">
+        <a
           v-for="item in navItems"
           :key="item.name"
-          class="bg-pink-200 border border-b-0 border-black px-2 py-1 rounded-t-md cursor-pointer hover:bg-pink-300 transition"
+          :href="item.href"
+          @click.prevent="scrollToSection(item)"
+          :class="[
+            'text-pink-500 px-3 py-1 rounded-t-md cursor-pointer flex items-center gap-1 transition-all duration-200',
+            item.name === activeTab ? 'bg-pink-100' : 'bg-pink-200'
+          ]"
         >
-          <a :href="item.href">{{ item.name.toUpperCase() }}</a>
-        </div>
+          <component :is="item.icon" class="w-4 h-4 text-pink-500" />
+          <span>{{ item.name.toUpperCase() }}</span>
+        </a>
       </div>
 
       <!-- Search bar -->
-      <div class="flex items-center space-x-1 bg-white border border-black px-2 py-[2px]">
-        <MagnifyingGlassIcon class="w-3 h-3 text-black" />
-        <span>LOOKING FOR ATTENTION !!!</span>
+      <div class="flex items-center space-x-1 bg-white border border-pink-300 px-2 py-[2px]">
+        <MagnifyingGlassIcon class="w-3 h-3 text-violet-500" />
+        <span class="text-violet-500">LOOKING FOR ATTENTION !!!</span>
       </div>
 
       <!-- Minimize/Close -->
       <div class="flex items-center space-x-1">
-        <MinusIcon class="w-5 h-5 border border-black bg-yellow-200 flex items-center justify-center"></MinusIcon>
-        <XMarkIcon class="w-5 h-5 border border-black bg-red-500 flex items-center justify-center"></XMarkIcon>
+        <MinusIcon class="w-5 h-5 border border-black bg-yellow-100 flex items-center justify-center" />
+        <XMarkIcon class="w-5 h-5 border border-black bg-red-300 flex items-center justify-center" />
       </div>
     </div>
 
     <!-- Address Bar -->
-    <div class="flex items-center justify-between px-6 py-2 border-b border-black bg-pink-200">
+    <div class="flex items-center justify-between px-6 py-2 bg-pink-100">
       <div class="flex items-center space-x-2">
-        <ArrowPathIcon class="w-4 h-4 text-black" />
+        <ArrowPathIcon class="w-4 h-4 text-pink-500" />
         <input
           type="text"
-          class="w-[260px] h-5 bg-white border border-black rounded-sm px-2 py-3 text-[10px] font-mono"
+          class="w-[260px] h-5 bg-white rounded-sm px-2 py-3 text-[10px] font-mono text-pink-500"
           value="https://www.portfolio.com"
           readonly
         />
@@ -75,14 +81,11 @@
     <div class="sm:hidden fixed top-0 left-0 w-full z-50">
       <!-- Top bar -->
       <div class="flex items-center justify-between bg-pink-100 border border-black h-12 px-4 text-black font-['Press_Start_2P'] text-[10px]">
-        <!-- Left: Logo / Title -->
         <div class="flex gap-2">
           <div class="w-3 h-3 bg-red-500 rounded-full border border-black"></div>
           <div class="w-3 h-3 bg-yellow-400 rounded-full border border-black"></div>
           <div class="w-3 h-3 bg-green-500 rounded-full border border-black"></div>
         </div>
-
-        <!-- Right: Hamburger Icon -->
         <button @click="isMenuOpen = !isMenuOpen" class="w-6 h-6 border border-black flex items-center justify-center bg-white">
           <Bars3Icon v-if="!isMenuOpen" class="w-4 h-4 text-black" />
           <XMarkIcon v-else class="w-4 h-4 text-black" />
@@ -92,8 +95,14 @@
       <!-- Dropdown menu -->
       <div v-if="isMenuOpen" class="bg-pink-200 border-x border-b border-black text-[10px]">
         <ul class="flex flex-col text-center divide-y divide-black">
-          <li v-for="item in navItems" :key="item.name" class="py-2 hover:bg-pink-300">
-            <a :href="item.href">{{ item.name.toUpperCase() }}</a>
+          <li
+            v-for="item in navItems"
+            :key="item.name"
+            class="py-2 hover:bg-pink-300"
+          >
+            <a @click.prevent="scrollToSection(item); isMenuOpen = false" href="#">
+              {{ item.name.toUpperCase() }}
+            </a>
           </li>
         </ul>
         <div class="flex justify-center gap-4 py-2 border-t border-black">
@@ -118,20 +127,37 @@ import {
   Bars3Icon,
   XMarkIcon
 } from '@heroicons/vue/24/solid'
-
-const navbar = ref(null)
+import {
+  HomeIcon,
+  UserIcon,
+  BriefcaseIcon,
+  FolderIcon,
+  EnvelopeIcon
+} from '@heroicons/vue/24/outline'
 
 const navItems = [
-  { name: 'Home', href: '#home' },
-  { name: 'About', href: '#about' },
-  { name: 'Path', href: '#path' },
-  { name: 'Project', href: '#project' },
-  { name: 'Contact', href: '#contact' },
+  { name: 'Home', href: '#home', icon: HomeIcon },
+  { name: 'About', href: '#about', icon: UserIcon },
+  { name: 'Path', href: '#path', icon: BriefcaseIcon },
+  { name: 'Project', href: '#project', icon: FolderIcon },
+  { name: 'Contact', href: '#contact', icon: EnvelopeIcon },
 ]
 
+const activeTab = ref(navItems[0].name)
 const timeNow = ref('')
+const isMenuOpen = ref(false)
+
+// Scroll to section smoothly
+const scrollToSection = (item) => {
+  const target = document.querySelector(item.href)
+  if (target) {
+    target.scrollIntoView({ behavior: 'smooth' })
+    activeTab.value = item.name
+  }
+}
 
 onMounted(() => {
+  // Digital clock
   const updateClock = () => {
     const now = new Date()
     const hours = String(now.getHours()).padStart(2, '0')
@@ -139,12 +165,31 @@ onMounted(() => {
     const seconds = String(now.getSeconds()).padStart(2, '0')
     timeNow.value = `${hours}:${minutes}:${seconds}`
   }
-
   updateClock()
   setInterval(updateClock, 1000)
-})
 
-const isMenuOpen = ref(false)
+  // Scrollspy with IntersectionObserver
+  const observerOptions = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.3,
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const id = entry.target.getAttribute('id')
+        const match = navItems.find(i => i.href === `#${id}`)
+        if (match) activeTab.value = match.name
+      }
+    })
+  }, observerOptions)
+
+  navItems.forEach(item => {
+    const section = document.querySelector(item.href)
+    if (section) observer.observe(section)
+  })
+})
 </script>
 
 <style scoped>
