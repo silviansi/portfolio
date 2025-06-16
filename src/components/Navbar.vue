@@ -1,7 +1,7 @@
 <template>
   <nav
     ref="navbar"
-    class="fixed z-50 w-full h-12 bg-pink-200 text-black font-['Press_Start_2P'] text-[10px] shadow-md"
+    class="fixed z-50 w-full h-10 bg-pink-200 text-black font-['Press_Start_2P'] text-[10px] shadow-md"
   >
     <div class="flex h-8 items-center justify-between px-5 py-1">
       <!-- Browser buttons -->
@@ -12,14 +12,14 @@
       </div>
 
       <!-- Tab menu -->
-      <div class="flex gap-2 mt-3">
+      <div class="flex gap-2">
         <a
           v-for="item in navItems"
           :key="item.name"
           :href="item.href"
           @click.prevent="scrollToSection(item)"
           :class="[
-            'text-pink-500 px-3 py-1 rounded-t-md cursor-pointer flex items-center gap-1 transition-all duration-200',
+            'text-pink-500 px-3 py-1 mt-3 rounded-t-md cursor-pointer flex items-center gap-1 transition-all duration-200',
             item.name === activeTab ? 'bg-pink-100' : 'bg-pink-200'
           ]"
         >
@@ -80,15 +80,15 @@
     <!-- Mobile Navbar -->
     <div class="sm:hidden fixed top-0 left-0 w-full z-50">
       <!-- Top bar -->
-      <div class="flex items-center justify-between bg-pink-100 border border-black h-12 px-4 text-black font-['Press_Start_2P'] text-[10px]">
+      <div class="flex items-center justify-between bg-pink-100 h-12 px-4 text-black font-['Press_Start_2P'] text-[10px]">
         <div class="flex gap-2">
-          <div class="w-3 h-3 bg-red-500 rounded-full border border-black"></div>
-          <div class="w-3 h-3 bg-yellow-400 rounded-full border border-black"></div>
-          <div class="w-3 h-3 bg-green-500 rounded-full border border-black"></div>
+          <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+          <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
+          <div class="w-3 h-3 bg-green-500 rounded-full"></div>
         </div>
-        <button @click="isMenuOpen = !isMenuOpen" class="w-6 h-6 border border-black flex items-center justify-center bg-white">
-          <Bars3Icon v-if="!isMenuOpen" class="w-4 h-4 text-black" />
-          <XMarkIcon v-else class="w-4 h-4 text-black" />
+        <button @click="isMenuOpen = !isMenuOpen" class="w-6 h-6 border border-pink-500 flex items-center justify-center bg-white">
+          <Bars3Icon v-if="!isMenuOpen" class="w-4 h-4 text-pink-500" />
+          <XMarkIcon v-else class="w-4 h-4 text-red-600" />
         </button>
       </div>
 
@@ -98,7 +98,7 @@
           <li
             v-for="item in navItems"
             :key="item.name"
-            class="py-2 hover:bg-pink-300"
+            class="py-2 hover:bg-pink-300 text-pink-500"
           >
             <a @click.prevent="scrollToSection(item); isMenuOpen = false" href="#">
               {{ item.name.toUpperCase() }}
