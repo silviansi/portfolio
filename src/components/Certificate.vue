@@ -1,37 +1,71 @@
 <template>
-  <section id="certificate" class="py-20">
+  <section id="certificate" class="py-16 relative">
     <div class="max-w-5xl mx-auto px-6">
       <!-- Section Title -->
-      <div class="text-center mb-10">
-        <h2 class="text-5xl font-bold uppercase border-b-2 border-gray-300 inline-block pb-2">
+      <div class="text-center mb-16 font-['Press_Start_2P']">
+        <h2 class="text-3xl sm:text-4xl mb-4 text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 drop-shadow">
           Certificates
         </h2>
-        <p class="text-gray-500 mt-2 italic">A showcase of milestones and achievements.</p>
+        <p class="text-sm text-pink-500 italic max-w-2xl mx-auto font-mono">
+          A showcase of milestones, achievements, and continuous learning journey
+        </p>
       </div>
 
       <!-- Certificate Grid -->
-      <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 font-['VT323']">
         <div
           v-for="(cert, index) in certificates"
           :key="index"
-          class="relative flex justify-center items-center bg-pink-300/20 dark:bg-purple-900/20 backdrop-blur-sm border border-pink-300/30 dark:border-purple-500/30 rounded-xl p-4 shadow-sm hover:shadow-lg transition-all duration-300 group overflow-hidden certificate-card"
+          class="relative group rounded-xl border-4 border-dashed border-cyan-200 bg-white shadow-md hover:shadow-lg transition-all duration-300 p-4 cursor-pointer"
           @mousemove="handleMouseMove"
           @mouseleave="handleMouseLeave"
+          @click="openCertificate(cert)"
         >
-          <!-- Animated glow effect -->
-          <div
-            class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none glow-effect"
-            :style="glowStyle"
-          ></div>
-          
-          <!-- Card content -->
-          <div class="relative z-10">
+          <div class="relative overflow-hidden rounded-md mb-4">
             <img
               :src="cert.src"
               :alt="cert.alt"
-              class="rounded-md w-full h-auto object-cover"
+              class="w-full h-40 object-cover rounded-md"
+              loading="lazy"
             />
           </div>
+          <h3 class="text-lg font-bold text-purple-700">
+            {{ cert.title || `Certificate ${index + 1}` }}
+          </h3>
+          <p class="text-sm text-gray-800">{{ cert.issuer }}</p>
+          <div class="flex items-center justify-between text-xs mt-2">
+            <span class="text-blue-600">{{ cert.year }}</span>
+          </div>
+          <div class="flex flex-wrap gap-2 mt-3">
+            <span 
+              v-for="skill in cert.skills.slice(0, 3)" 
+              :key="skill"
+              class="px-2 py-1 text-xs bg-yellow-100 text-yellow-900 rounded-full border border-yellow-400"
+            >
+              {{ skill }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Certificate Modal -->
+      <div
+        v-if="selectedCertificate"
+        class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4"
+        @click.self="closeCertificate"
+      >
+        <div class="relative w-full max-w-xl bg-white rounded-xl overflow-hidden border-4 border-pink-400">
+          <button
+            @click="closeCertificate"
+            class="absolute top-2 right-2 bg-pink-200 text-pink-800 rounded-full w-8 h-8 flex items-center justify-center hover:bg-pink-300"
+          >
+            &times;
+          </button>
+          <img
+            :src="selectedCertificate.src"
+            :alt="selectedCertificate.alt"
+            class="w-full h-auto"
+          />
         </div>
       </div>
     </div>
@@ -39,121 +73,77 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, reactive } from 'vue';
 
 const certificates = ref([
-  { src: "/images/certificate-1.jpg", alt: "Certificate 1" },
-  { src: "/images/certificate-2.jpg", alt: "Certificate 2" },
-  { src: "/images/certificate-3.png", alt: "Certificate 3" },
-  { src: "/images/certificate-4.jpg", alt: "Certificate 4" },
-  { src: "/images/certificate-5.jpg", alt: "Certificate 5" },
+  {
+    src: "/images/certificate-1.jpg",
+    alt: "Certificate 1",
+    title: "Web Developer Program",
+    issuer: "PT. Hactivate Teknologi Indonesia",
+    year: "2023",
+    skills: ["HTML", "CSS", "JavaScript"],
+  },
+  {
+    src: "/images/certificate-2.jpg",
+    alt: "Certificate 2",
+    title: "IT Support",
+    issuer: "PT. PG Candi Baru",
+    year: "2023",
+    skills: ["Laravel", "MySQL", "Bootstrap"],
+  },
+  {
+    src: "/images/certificate-3.png",
+    alt: "Certificate 3",
+    title: "Full Stack Web Developer",
+    issuer: "PT. Arkatama Multi Solusindo",
+    year: "2024",
+    skills: ["Laravel", "MySQL", "Bootstrap"],
+  },
+  {
+    src: "/images/certificate-4.jpg",
+    alt: "Certificate 4",
+    title: "Junior Web Developer",
+    issuer: "BNSP",
+    year: "2024",
+    skills: ["Framework", "Clean Code", "Structured Programming"],
+  },
+  {
+    src: "/images/certificate-5.jpg",
+    alt: "Certificate 5",
+    title: "Lead Computer Operator",
+    issuer: "BNSP",
+    year: "2024",
+    skills: ["MS Word", "MS Excel", "MS PowerPoint"],
+  }
 ]);
 
-// Mouse position tracking
-const mouseX = ref(0);
-const mouseY = ref(0);
+const selectedCertificate = ref(null);
 
-// Computed style for the glow effect
-const glowStyle = ref({});
-
-// Check if dark mode is active
-const isDarkMode = () => {
-  return document.documentElement.classList.contains('dark');
+const openCertificate = (cert) => {
+  selectedCertificate.value = cert;
 };
 
-// Update glow colors based on theme
-const updateGlowColors = (x = '50%', y = '50%') => {
-  const isDark = isDarkMode();
-  
-  if (isDark) {
-    // Dark mode - purple glow
-    return {
-      background: `radial-gradient(circle 200px at ${x} ${y}, rgba(255, 255, 255, 0.3) 0%, rgba(147, 51, 234, 0.2) 30%, transparent 70%)`,
-    };
-  } else {
-    // Light mode - pink glow
-    return {
-      background: `radial-gradient(circle 200px at ${x} ${y}, rgba(255, 255, 255, 0.4) 0%, rgba(244, 114, 182, 0.3) 30%, transparent 70%)`,
-    };
-  }
+const closeCertificate = () => {
+  selectedCertificate.value = null;
 };
 
-// Handle mouse movement
+const glowStyles = reactive({});
+
 const handleMouseMove = (event) => {
   const rect = event.currentTarget.getBoundingClientRect();
   const x = event.clientX - rect.left;
   const y = event.clientY - rect.top;
-  
-  mouseX.value = x;
-  mouseY.value = y;
-  
-  // Update glow position with theme-aware colors
-  glowStyle.value = updateGlowColors(`${x}px`, `${y}px`);
+  event.currentTarget.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255, 0, 255, 0.1), transparent 80%)`;
 };
 
-// Handle mouse leave
-const handleMouseLeave = () => {
-  glowStyle.value = updateGlowColors();
+const handleMouseLeave = (event) => {
+  event.currentTarget.style.background = '';
 };
-
-onMounted(() => {
-  // Set initial glow style
-  glowStyle.value = updateGlowColors();
-  
-  // Watch for theme changes (if you have theme switching functionality)
-  const observer = new MutationObserver(() => {
-    glowStyle.value = updateGlowColors();
-  });
-  
-  observer.observe(document.documentElement, {
-    attributes: true,
-    attributeFilter: ['class']
-  });
-});
 </script>
 
 <style scoped>
-/* CSS custom properties for theme-aware colors */
-:root {
-  --glow-color-primary: rgba(244, 114, 182, 0.3); /* Pink for light mode */
-  --glow-color-secondary: rgba(255, 255, 255, 0.4);
-}
-
-:root.dark {
-  --glow-color-primary: rgba(147, 51, 234, 0.2); /* Purple for dark mode */
-  --glow-color-secondary: rgba(255, 255, 255, 0.3);
-}
-
-/* Alternative CSS-only approach (backup) */
-.certificate-card .glow-effect {
-  --glow-primary: rgba(244, 114, 182, 0.3);
-  --glow-secondary: rgba(255, 255, 255, 0.4);
-}
-
-.dark .certificate-card .glow-effect {
-  --glow-primary: rgba(147, 51, 234, 0.2);
-  --glow-secondary: rgba(255, 255, 255, 0.3);
-}
-
-/* Additional hover effects */
-.group:hover {
-  transform: translateY(-2px);
-}
-
-.group:hover .relative {
-  backdrop-filter: blur(8px);
-}
-
-/* Enhanced certificate card hover effect */
-.certificate-card:hover {
-  box-shadow: 
-    0 10px 25px rgba(0, 0, 0, 0.1),
-    0 0 20px var(--glow-color-primary, rgba(244, 114, 182, 0.2));
-}
-
-.dark .certificate-card:hover {
-  box-shadow: 
-    0 10px 25px rgba(0, 0, 0, 0.3),
-    0 0 20px rgba(147, 51, 234, 0.3);
+body {
+  font-family: 'VT323', monospace;
 }
 </style>
