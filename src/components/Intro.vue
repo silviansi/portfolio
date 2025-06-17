@@ -1,7 +1,7 @@
 <template>
   <section
     id="home"
-    class="relative min-h-screen px-6 pt-20 pb-10 bg-pink-50 text-black font-['Press_Start_2P'] overflow-hidden"
+    class="relative min-h-screen px-6 pt-20 pb-10 font-['Press_Start_2P'] overflow-hidden"
   >
 
     <!-- Folder Icons -->
@@ -131,17 +131,17 @@
     </div>
 
     <!-- Main Content Layout -->
-    <div class="relative z-10 flex flex-col md:flex-row items-start justify-between gap-10 min-h-full">
+    <div class="relative z-10 pl-10 flex flex-col md:flex-row items-start justify-between gap-10 min-h-full">
       <!-- Left: Text Content -->
       <div class="flex-1 text-center mx-auto space-y-4 mt-10">
-        <h1 class="text-xl sm:text-xl md:text-2xl text-indigo-400 text-shadow-lg drop-shadow-md animate-fade-in">
+        <h1 class="text-xl sm:text-xl md:text-2xl text-indigo-400 drop-shadow-[3px_3px_0_#fbcfe8] animate-fade-in">
           Hi! I'm
         </h1>
 
         <!-- Name Section -->
         <div class="flex items-center justify-center gap-4 mt-2 mb-4">
           <img src="/images/love-pink-blue.gif" alt="Love Left" class="w-6 sm:w-8 md:w-10 animate-love-beat" />
-          <h2 class="text-4xl sm:text-5xl md:text-6xl text-pink-300 text-shadow-lg drop-shadow-lg">Silvia</h2>
+          <h2 class="text-4xl sm:text-5xl md:text-6xl text-pink-300 drop-shadow-[4px_4px_0_#ec4899]">Silvia</h2>
           <img src="/images/love-pink-blue.gif" alt="Love Right" class="w-6 sm:w-8 md:w-10 animate-love-beat" />
         </div>
 
@@ -155,7 +155,13 @@
           <img
             src="/images/cinnamoroll-sanrio.gif"
             alt="Silvia GIF"
-            class="absolute top-12 -left-16 w-30 h-30 animate-fade-in hidden sm:block"
+            class="absolute top-10 -left-16 w-30 h-30 animate-fade-in hidden sm:block"
+          />
+
+          <img
+            src="/images/cinnamoroll-sanrio (1).gif"
+            alt="Silvia GIF"
+            class="absolute top-12 left-64 w-25 h-20 animate-fade-in hidden sm:block"
           />
 
           <div class="flex justify-between items-center bg-blue-200 px-2 py-1 rounded-t-lg border-b-2 border-blue-300">
@@ -263,8 +269,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
-
 @keyframes fade-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes bounce-slow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 @keyframes spin-slow { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
