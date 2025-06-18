@@ -5,7 +5,7 @@
   >
 
     <div class="max-w-5xl mx-auto relative z-10 pb-32">
-      <h2 class="text-3xl sm:text-4xl text-center mb-5 bg-gradient-to-r from-pink-400 via-purple-400 to-blue-400 text-transparent bg-clip-text drop-shadow">
+      <h2 class="text-3xl sm:text-4xl text-center mb-5 bg-gradient-to-r from-pink-400 via-purple-400 to-blue-400 text-transparent bg-clip-text drop-shadow-[2px_2px_0_rgba(0,0,0,0.3)]">
         Contact Me
       </h2>
       <p class="text-sm font-mono text-pink-500 text-center italic">
