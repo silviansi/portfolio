@@ -1,43 +1,41 @@
 <template>
-  <div class="min-h-screen overflow-x-hidden bg-pink-50 duration-300 relative">
-    <!-- Navbar always on top -->
-    <Navbar />
+  <section
+    id="home"
+    class="relative min-h-screen overflow-hidden font-['Press_Start_2P']"
+  >
 
-    <!-- Main content -->
-    <main class="pt-12">
-      <Intro />
-      <About />
-      <Path />
-      <Project />
-      <Certificate />
-      <Contact />
-      <Footer />
-    </main>
-  </div>
+    <!-- Folder Icons -->
+    <div class="absolute top-15 left-6 flex flex-col gap-4 z-10 font-[VT323]">
+      <button @click="() => openWindow('about')" class="flex flex-col items-center">
+        <img src="/images/icon-folder.png" alt="About" class="w-12 hover:scale-110 hover:-rotate-6 transition" />
+        <span class="block text-lg text-center text-white">About</span>
+      </button>
+
+      <button @click="() => openWindow('path')" class="flex flex-col items-center">
+        <img src="/images/icon-folder.png" alt="Path" class="w-12 hover:scale-110 hover:-rotate-6 transition" />
+        <span class="block text-lg text-center text-white">Path</span>
+      </button>
+
+      <button @click="() => openWindow('project')" class="flex flex-col items-center">
+        <img src="/images/icon-folder.png" alt="Projects" class="w-12 hover:scale-110 hover:-rotate-6 transition" />
+        <span class="block text-lg text-center text-white">Project</span>
+      </button>
+
+      <button @click="alert('Opening Certificate')" class="flex flex-col items-center">
+        <img src="/images/icon-folder.png" alt="Certificate" class="w-12 hover:scale-110 hover:-rotate-6 transition" />
+        <span class="block text-lg text-center text-white">Certificate</span>
+      </button>
+
+      <button @click="alert('Opening Contact')" class="flex flex-col items-center">
+        <img src="/images/icon-folder.png" alt="Contact" class="w-12 hover:scale-110 hover:-rotate-6 transition" />
+        <span class="block text-lg text-center text-white">Contact</span>
+      </button>
+    </div>
+  </section>
 </template>
 
 <script setup>
-import { useDark } from '@vueuse/core'
-import { watchEffect } from 'vue'
-
-import Navbar from '@/components/Navbar.vue'
-import Intro from '@/components/Intro.vue'
-import About from '@/components/About.vue'
-import Path from '@/components/Path.vue'
-import Project from '@/components/Project.vue'
-import Certificate from '@/components/Certificate.vue'
-import Contact from '@/components/Contact.vue'
-import Footer from '@/components/Footer.vue'
-
-const isDark = useDark()
-
-watchEffect(() => {
-  if (isDark.value) {
-    document.documentElement.classList.add('dark')
-    document.documentElement.setAttribute('data-theme', 'dark')
-  } else {
-    document.documentElement.classList.remove('dark')
-    document.documentElement.removeAttribute('data-theme')
-  }
+const props = defineProps({
+  openWindow: Function
 })
 </script>
