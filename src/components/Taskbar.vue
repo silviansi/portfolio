@@ -17,7 +17,7 @@
         v-for="win in windows"
         :key="win.name"
         @click="toggleWindow(win.name)"
-        class="flex items-center gap-2 px-2 py-1 bg-[#fff0f5] border border-pink-400 rounded shadow hover:brightness-110 transition"
+        class="flex items-center gap-2 px-2 py-1 bg-[#fce4ec] border border-[#c7a5b6] shadow-[inset_-2px_-2px_0_#ffffff,inset_2px_2px_0_#a8728d] hover:brightness-110 transition"
       >
         <img :src="win.icon" alt="" class="w-4 h-4" />
         <span>{{ win.label }}</span>
@@ -27,7 +27,7 @@
     <!-- SYSTEM TRAY -->
     <div class="flex items-center gap-2 ml-auto">
       <div
-        class="flex items-center gap-2 bg-[#fce4ec] border border-[#c7a5b6] shadow-[inset_-2px_-2px_0_#ffffff,inset_2px_2px_0_#a8728d] px-3 py-1 rounded font-bold"
+        class="flex items-center gap-2 bg-[#fce4ec] border border-[#c7a5b6] shadow-[inset_-2px_-2px_0_#ffffff,inset_2px_2px_0_#a8728d] px-3 py-1 font-bold"
       >
         <img src="/images/icon-calendar.png" class="w-4 h-4" title="Calendar" />
         <img src="/images/icon-sound.png" class="w-4 h-4" title="Volume" />
@@ -99,10 +99,11 @@ onBeforeUnmount(() => {
 })
 
 const menuItems = [
-  { name: 'about', label: 'About', icon: 'fa fa-user' },
+  { name: 'about', label: 'About Me', icon: 'fa fa-user' },
   { name: 'path', label: 'Path', icon: 'fa fa-briefcase' },
   { name: 'project', label: 'Project', icon: 'fa fa-folder' },
-  // Tambahkan menu lain jika ada
+  { name: 'certificate', label: 'Certificate', icon: 'fa fa-certificate' },
+  { name: 'contact', label: 'Contact', icon: 'fa fa-envelope' },
 ]
 
 const startApp = (name) => {
