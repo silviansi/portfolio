@@ -2,19 +2,43 @@
   <div class="w-[300px] h-[340px] bg-pink-100/60 rounded-xl shadow-md relative flex flex-col items-center justify-between pt-4 pb-6 px-4 font-[VT323] text-pink-500">
 
     <!-- Layar Atas -->
-    <div class="bg-pink-300 rounded-xl overflow-hidden w-full h-[130px] p-3 text-white flex flex-col justify-between">
-      <!-- Info Track -->
-      <div class="flex gap-3 items-center">
-        <img
-          :src="currentTrack.cover"
-          alt="cover"
-          class="w-16 h-16 object-cover rounded"
-        />
-      <div>
-        <p class="text-lg font-bold">{{ currentTrack.title }}</p>
-        <p class="text-sm text-pink-900">{{ currentTrack.artist }}</p>
+    <div class="relative rounded-xl overflow-hidden w-full h-[130px] text-pink-900">
+      <!-- Background Cover Blur -->
+      <div
+        class="absolute inset-0 bg-cover bg-center blur-sm scale-110"
+        :style="{ backgroundImage: `url(${currentTrack.cover})` }"
+      ></div>
+
+      <!-- Overlay untuk warna tambahan -->
+      <div class="absolute inset-0 bg-pink-300/30 backdrop-blur-md"></div>
+
+      <!-- Konten -->
+      <div class="relative z-10 p-3 h-full flex flex-col justify-between">
+        <!-- Info Track -->
+        <div class="flex gap-3 items-center">
+          <img
+            :src="currentTrack.cover"
+            alt="cover"
+            class="w-16 h-16 object-cover rounded"
+          />
+          <div>
+            <p class="text-lg font-bold">{{ currentTrack.title }}</p>
+            <p class="text-sm text-pink-800">{{ currentTrack.artist }}</p>
+          </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="text-xs flex items-center justify-between mt-2">
+          <span>{{ formatTime(currentTime) }}</span>
+          <div class="flex-1 mx-2 h-[6px] rounded-full bg-white overflow-hidden">
+            <div
+              class="h-full bg-gradient-to-r from-green-300 to-pink-500"
+              :style="{ width: progress + '%' }"
+            ></div>
+          </div>
+          <span>{{ formatTime(duration) }}</span>
+        </div>
       </div>
-    </div>
 
     <!-- Progress Bar -->
     <div class="text-xs flex items-center justify-between mt-2">
