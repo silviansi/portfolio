@@ -4,24 +4,30 @@
     class="relative min-h-screen overflow-hidden"
   >
 
+    <!-- Judul -->
+    <h1 class="title-shadow">
+      Portfolio
+    </h1>
+
+    <!-- Clock -->
+    <Clock class="absolute w-64 h-1uto top-15 left-15" />
+
     <!-- Music -->
     <div class="absolute w-64 h-auto bottom-15 left-15">
       <Music />
     </div>
 
     <!-- Calendar -->
-    <div class="absolute w-64 h-auto top-10 right-10">
-      <Calendar />
-    </div>
+    <Calendar class="absolute w-64 h-auto top-10 right-10" />
 
     <!-- Folder Icon -->
-    <div class="absolute w-[26rem] h-auto bottom-15 left-115">
+    <div class="absolute w-[26rem] h-auto bottom-42 left-115">
       <div class="bg-pink-100/60 rounded-xl p-4 shadow-md text-pink-900 font-[VT323]">
         <div class="grid grid-cols-4 grid-rows-2 gap-4">
           <button
             v-for="folder in folders"
             :key="folder.name"
-            @click="() => openWindow(folder.name)"
+            @click="() => openWindow(folder.name, folder.icon)"
             class="flex flex-col items-center"
           >
             <img
@@ -35,18 +41,32 @@
       </div>
     </div>
 
-    <!-- Folder Icons -->
-    <!-- <div class="absolute top-14 left-6 grid grid-flow-col grid-rows-5 gap-x-8 gap-y-6 z-10 font-[VT323]">
-      <button v-for="folder in folders" :key="folder.name" @click="() => openWindow(folder.name)" class="flex flex-col items-center">
-        <img :src="folder.icon" :alt="folder.label" class="w-12 hover:scale-110 transition" />
-        <span class="block text-center text-white">{{ folder.label }}</span>
-      </button>
-    </div> -->
+    <!-- App -->
+    <div class="absolute w-[26rem] h-auto bottom-15 left-115">
+      <div class="bg-pink-100/60 rounded-xl p-4 shadow-md text-pink-900 font-[VT323]">
+        <div class="grid grid-cols-3 gap-4">
+          <button
+            v-for="app in apps"
+            :key="app.name"
+            @click="() => openWindow(app.name, app.icon)"
+            class="flex flex-col items-center"
+          >
+            <img
+              :src="app.icon"
+              :alt="app.label"
+              class="w-10 hover:scale-110 transition"
+            />
+            <span class="block text-center text-sm text-pink-900">{{ app.label }}</span>
+          </button>
+        </div>
+      </div>
+    </div>
 
   </section>
 </template>
 
 <script setup>
+import Clock from '@/components/Clock.vue'
 import Music from '@/components/Music.vue'
 import Calendar from '@/components/Calendar.vue'
 
@@ -62,5 +82,11 @@ const folders = [
   { name: 'certificate', label: 'Certificate', icon: '/images/icon-folder-5.png' },
   { name: 'contact', label: 'Contact', icon: '/images/icon-folder-6.png' },
   { name: 'cv', label: 'CV', icon: '/images/icon-folder-7.png' },
+]
+
+const apps = [
+  { name: 'internet', label: 'Internet', icon: '/images/icon-internet.png' },
+  { name: 'notepad', label: 'Notepad', icon: '/images/icon-notepad.png' },
+  { name: 'terminal', label: 'Terminal', icon: '/images/icon-terminal.jpg' },
 ]
 </script>
