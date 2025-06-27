@@ -1,3 +1,12 @@
 @import 'tailwindcss';
 
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+.title-shadow {
+    @apply absolute top-12 left-1/2 transform -translate-x-1/2 text-pink-500 text-4xl md:text-5xl lg:text-6xl font-['Pacifico'];
+    text-shadow:
+        -2px -2px 0 #ffffff,
+        2px -2px 0 #ffffff,
+        -2px  2px 0 #ffffff,
+        2px  2px 0 #ffffff;
+}
