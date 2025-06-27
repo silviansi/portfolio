@@ -71,7 +71,7 @@ const visibleWindows = computed(() =>
     openWindows.value.filter((w) => !w.minimized)
 )
 
-const openWindow = (name) => {
+const openWindow = (name, icon = '/images/icon-folder.png') => {
     const existing = openWindows.value.find((w) => w.name === name)
     if (existing) {
         existing.minimized = false
@@ -79,7 +79,7 @@ const openWindow = (name) => {
         openWindows.value.push({
         name,
         label: name.charAt(0).toUpperCase() + name.slice(1),
-        icon: '/images/icon-folder.png',
+        icon,
         minimized: false,
         })
     }
