@@ -1,7 +1,7 @@
 <template>
-    <div class="text-pink-900 font-['Press_Start_2P'] text-xl md:text-2xl lg:text-4xl text-center ml-5">
+    <div class="text-pink-500 font-['Press_Start_2P'] text-xl md:text-2xl lg:text-4xl text-center ml-5 tracking-widest drop-shadow-[2px_2px_0_#fff]">
         {{ hourMinute }}
-        <sup class="text-sm align-super -ml-5">{{ ampm }}</sup>
+        <sup class="text-xs absolute -top-2 right-0 text-pink-500">{{ ampm }}</sup>
     </div>
 </template>
 
