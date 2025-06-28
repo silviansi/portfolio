@@ -10,7 +10,7 @@
     </h1>
 
     <!-- Clock -->
-    <Clock class="absolute w-64 h-1uto top-15 left-15" />
+    <Clock class="absolute w-64 h-1uto top-20 left-15" />
 
     <!-- Music -->
     <div class="absolute w-64 h-auto bottom-15 left-15">
@@ -18,7 +18,7 @@
     </div>
 
     <!-- Calendar -->
-    <Calendar class="absolute w-64 h-auto top-10 right-10" />
+    <Calendar class="absolute w-64 h-auto top-12 right-15" />
 
     <!-- Folder Icon -->
     <div class="absolute w-[26rem] h-auto bottom-42 left-115">
@@ -60,6 +60,14 @@
           </button>
         </div>
       </div>
+    </div>
+
+    <!-- Sticker 2x2 Grid -->
+    <div class="absolute bottom-20 right-25 grid grid-cols-2 grid-rows-2 gap-0">
+      <img src="/images/sticker-1.jpg" alt="sticker 1" class="w-25 h-25 object-contain" />
+      <img src="/images/heart-record-record-player.gif" alt="sticker 2" class="w-25 h-25 object-contain" />
+      <img src="/images/sticker-3.jpg" alt="sticker 3" class="w-25 h-25 object-contain" />
+      <img src="/images/sticker-4.jpg" alt="sticker 4" class="w-25 h-25 object-contain" />
     </div>
 
   </section>
