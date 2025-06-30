@@ -56,6 +56,8 @@ import Taskbar from '@/components/Taskbar.vue'
 import AboutWindow from '@/pages/About.vue'
 import PathWindow from '@/pages/Path.vue'
 import ProjectWindow from '@/pages/Project.vue'
+import InternetWindow from '@/pages/Internet.vue'
+import NotepadWindow from '@/pages/Notepad.vue'
 
 const openWindows = ref([])
 
@@ -63,6 +65,8 @@ const windowMap = {
     about: AboutWindow,
     path: PathWindow,
     project: ProjectWindow,
+    internet: InternetWindow,
+    notepad: NotepadWindow,
 }
 
 const getComponent = (name) => windowMap[name] || null
