@@ -1,9 +1,9 @@
 <template>
   <div
-    class="absolute rounded-md overflow-hidden border-[2px] border-pink-400 bg-pink-100 shadow-lg font-[VT323] text-pink-900 z-50 flex flex-col"
-    :style="computedStyle"
+    class="absolute rounded-md overflow-hidden border-[2px] border-pink-400 bg-pink-100 shadow-lg font-[VT323] text-pink-900 flex flex-col"
+    :style="{ ...computedStyle, zIndex: baseZ }"
     ref="windowRef"
-    @mousedown="startDrag"
+    @mousedown="(e) => { startDrag(e); updateZ() }"
   >
     <!-- Fake Browser Header -->
     <div
@@ -93,6 +93,11 @@
 <script setup>
 import { ref, reactive, computed, onMounted, onBeforeUnmount } from 'vue'
 import { MinusIcon, ArrowsPointingOutIcon, XMarkIcon, MagnifyingGlassIcon } from '@heroicons/vue/24/solid'
+
+defineProps({
+  baseZ: Number,
+  updateZ: Function,
+})
 
 const windowRef = ref(null)
 const isMaximized = ref(false)
