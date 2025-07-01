@@ -1,25 +1,24 @@
 <template>
     <div 
-        class="absolute rounded-md overflow-hidden border-[2px] border-pink-400 bg-pink-100 shadow-lg" 
+        class="absolute rounded-md overflow-hidden border-[2px] border-pink-400 bg-pink-100 shadow-lg font-[VT323] text-pink-900" 
         :style="{ ...computedStyle, zIndex: baseZ }"
         ref="windowRef"
         @mousedown="($e) => { startDrag($e); updateZ() }"
     >
 
-        <!-- Toolbar -->
+        <!-- Header -->
         <div
-            class="flex items-center justify-between px-3 py-1 bg-yellow-100 text-pink-900 font-bold cursor-move select-none"
-            @mousedown="startDrag"
+        class="bg-pink-300 px-4 py-2 flex items-center justify-between cursor-move select-none"
+        @mousedown="startDrag"
         >
-        <div class="flex items-center gap-2">
-            <button class="text-xl">←</button>
-            <button class="text-xl">→</button>
-            <button class="text-xl">⟳</button>
-            <div class="flex items-center bg-pink-200 px-1 py-0.5 border rounded text-sm gap-2">
-                <MagnifyingGlassIcon class="w-4 h-4 text-violet-500" />
-                <span class="text-violet-500"> LOOKING FOR ATTENTION !!!</span>
-            </div>
+        <div class="flex gap-2">
+            <div class="w-3 h-3 bg-red-400 rounded-full"></div>
+            <div class="w-3 h-3 bg-yellow-300 rounded-full"></div>
+            <div class="w-3 h-3 bg-green-400 rounded-full"></div>
         </div>
+
+        <span class="text-lg font-bold">💻 About Me</span>
+
         <div class="flex gap-2">
             <MinusIcon class="w-5 h-5 cursor-pointer" @click="$emit('minimize')" />
             <ArrowsPointingOutIcon class="w-5 h-5 cursor-pointer" @click="toggleMaximize" />
@@ -28,7 +27,7 @@
         </div>
 
         <!-- Content -->
-        <div class="p-6 font-['VT323'] text-black">
+        <div class="p-6 text-black">
             <div class="max-w-4xl mx-auto border border-pink-500 p-6 bg-[#f8f7f2] bg-grain shadow-md rounded-2xl flex flex-col md:flex-row gap-6 items-start">
 
                 <!-- Left Column: Photo + Contact -->
