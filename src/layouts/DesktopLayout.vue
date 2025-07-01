@@ -2,11 +2,11 @@
     <div class="relative min-h-screen w-full overflow-hidden bg-gradient-to-br from-pink-200 via-pink-300 to-pink-100">
 
         <!-- ✨ Layer Kotak-kotak Estetik -->
-        <div class="absolute inset-0 z-0">
-            <div class="absolute w-40 h-60 top-10 left-10 bg-pink-100/60 rounded-xl"></div>
-            <div class="absolute w-24 h-24 top-14 left-60 bg-pink-200/60 rounded-xl backdrop-blur-md"></div>
-            <div class="absolute w-28 h-28 top-36 left-36 bg-pink-300/60 rounded-xl"></div>
-        </div>
+        <!-- <div class="absolute inset-0 z-0">
+            <div class="absolute w-40 h-60 top-10 right-1/4 bg-pink-100/60 rounded-xl"></div>
+            <div class="absolute w-24 h-24 top-14 right-110 bg-pink-200/60 rounded-xl backdrop-blur-md"></div>
+            <div class="absolute w-28 h-28 top-36 right-1/5 bg-pink-300/60 rounded-xl"></div>
+        </div> -->
         
         <!-- ✨ Decorative Wallpaper Layer -->
         <img
@@ -54,6 +54,7 @@ import Taskbar from '@/components/Taskbar.vue'
 
 // Import semua window
 import AboutWindow from '@/pages/About.vue'
+import SkillWindow from '@/pages/Skill.vue'
 import PathWindow from '@/pages/Path.vue'
 import ProjectWindow from '@/pages/Project.vue'
 import InternetWindow from '@/pages/Internet.vue'
@@ -72,6 +73,7 @@ const bringToFront = (name) => {
 
 const windowMap = {
     about: AboutWindow,
+    skill: SkillWindow,
     path: PathWindow,
     project: ProjectWindow,
     internet: InternetWindow,
