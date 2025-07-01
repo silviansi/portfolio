@@ -1,7 +1,13 @@
 <template>
-    <div class="text-pink-500 font-['Press_Start_2P'] text-xl md:text-2xl lg:text-4xl text-center ml-5 tracking-widest drop-shadow-[2px_2px_0_#fff]">
+    <div
+        class="w-64 h-20 mx-auto bg-pink-300 border-4 border-pink-500 rounded-[2rem] shadow-[4px_4px_0_#db2777] flex flex-col items-center justify-center font-['Press_Start_2P']"
+    >
+        <!-- Waktu -->
+        <div class="text-white text-3xl drop-shadow-[1px_1px_0_#000]">
         {{ hourMinute }}
-        <sup class="text-xs absolute -top-2 right-0 text-pink-500">{{ ampm }}</sup>
+        <sup class="text-xs ml-1">{{ ampm }}</sup>
+        </div>
+
     </div>
 </template>
 
