@@ -5,7 +5,7 @@
         <!-- Waktu -->
         <div class="text-white text-3xl drop-shadow-[1px_1px_0_#000]">
         {{ hourMinute }}
-        <sup class="text-xs ml-1">{{ ampm }}</sup>
+        <sup class="text-xs">{{ ampm }}</sup>
         </div>
 
     </div>
