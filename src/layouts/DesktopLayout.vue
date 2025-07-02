@@ -57,6 +57,8 @@ import AboutWindow from '@/pages/About.vue'
 import SkillWindow from '@/pages/Skill.vue'
 import PathWindow from '@/pages/Path.vue'
 import ProjectWindow from '@/pages/Project.vue'
+import CertificateWindow from '@/pages/Certificate.vue'
+import ContactWindow from '@/pages/Contact.vue'
 import InternetWindow from '@/pages/Internet.vue'
 import NotepadWindow from '@/pages/Notepad.vue'
 import TerminalWindow from '@/pages/Terminal.vue'
@@ -76,6 +78,8 @@ const windowMap = {
     skill: SkillWindow,
     path: PathWindow,
     project: ProjectWindow,
+    certificate: CertificateWindow,
+    contact: ContactWindow,
     internet: InternetWindow,
     notepad: NotepadWindow,
     terminal: TerminalWindow,
