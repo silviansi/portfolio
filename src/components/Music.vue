@@ -107,7 +107,7 @@ const tracks = [
     cover: '/images/thechase.jpg',
   },
   {
-    title: 'Batterflies',
+    title: 'Butterflies',
     artist: 'Hearts2Hearts',
     src: '/music/butterflies.mp3',
     cover: '/images/thechase.jpg',
