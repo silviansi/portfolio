@@ -1,16 +1,17 @@
 <template>
-  <section
-    id="home"
-    class="relative min-h-screen overflow-hidden"
-  >
+  <section id="home" class="relative min-h-screen overflow-hidden">
 
     <!-- Judul -->
     <h1 class="title-shadow">
       Portfolio
     </h1>
 
+    <div class="absolute top-37 left-165 -translate-x-1/2 bg-pink-200 px-4 py-2 rounded-full shadow text-sm animate-bounceIn">
+      💬 Anon: “Hey, let’s build your dream project today!”
+    </div>
+
     <!-- Clock -->
-    <Clock class="absolute w-64 h-1uto top-20 left-15" />
+    <Clock class="absolute w-64 h-1uto top-20 left-20" />
 
     <!-- Music -->
     <div class="absolute w-64 h-auto bottom-15 left-15">
@@ -63,11 +64,11 @@
     </div>
 
     <!-- Sticker 2x2 Grid -->
-    <div class="absolute bottom-20 right-25 grid grid-cols-2 grid-rows-2 gap-0">
+    <div class="absolute bottom-20 right-22 grid grid-cols-2 grid-rows-2 gap-0">
       <img src="/images/sticker-1.jpg" alt="sticker 1" class="w-25 h-25 object-contain" />
       <img src="/images/heart-record-record-player.gif" alt="sticker 2" class="w-25 h-25 object-contain" />
-      <img src="/images/sticker-3.jpg" alt="sticker 3" class="w-25 h-25 object-contain" />
-      <img src="/images/sticker-4.jpg" alt="sticker 4" class="w-25 h-25 object-contain" />
+      <img src="/images/sticker-4.gif" alt="sticker 3" class="w-25 h-25 object-contain" />
+      <img src="/images/sticker-3.jpg" alt="sticker 4" class="w-25 h-25 object-contain" />
     </div>
 
   </section>
@@ -77,14 +78,13 @@
 import Clock from '@/components/Clock.vue'
 import Music from '@/components/Music.vue'
 import Calendar from '@/components/Calendar.vue'
+import { useWindowStore } from '@/stores/windowStore'
 
-const props = defineProps({
-  openWindow: Function
-})
+const windowStore = useWindowStore()
 
 const folders = [
   { name: 'about', label: 'About Me', icon: '/images/icon-folder-1.png' },
-  { name: 'skills', label: 'Skills', icon: '/images/icon-folder-2.png' },
+  { name: 'skill', label: 'Skill', icon: '/images/icon-folder-2.png' },
   { name: 'path', label: 'Path', icon: '/images/icon-folder-3.png' },
   { name: 'project', label: 'Project', icon: '/images/icon-folder-4.png' },
   { name: 'certificate', label: 'Certificate', icon: '/images/icon-folder-5.png' },
@@ -97,4 +97,16 @@ const apps = [
   { name: 'notepad', label: 'Notepad', icon: '/images/icon-notepad.png' },
   { name: 'terminal', label: 'Terminal', icon: '/images/icon-terminal.jpg' },
 ]
+
+const openWindow = windowStore.openWindow
 </script>
+
+<style scoped>
+@keyframes bounceIn {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.animate-bounceIn {
+  animation: bounceIn 0.8s ease-out forwards;
+}
+</style>
