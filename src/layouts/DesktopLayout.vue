@@ -1,24 +1,12 @@
 <template>
     <div class="relative min-h-screen w-full overflow-hidden bg-gradient-to-br from-pink-200 via-pink-300 to-pink-100">
-
-        <!-- ✨ Layer Kotak-kotak Estetik -->
-        <!-- <div class="absolute inset-0 z-0">
-            <div class="absolute w-40 h-60 top-10 right-1/4 bg-pink-100/60 rounded-xl"></div>
-            <div class="absolute w-24 h-24 top-14 right-110 bg-pink-200/60 rounded-xl backdrop-blur-md"></div>
-            <div class="absolute w-28 h-28 top-36 right-1/5 bg-pink-300/60 rounded-xl"></div>
-        </div> -->
         
-        <!-- ✨ Decorative Wallpaper Layer -->
+        <!-- Decorative Wallpaper Layer -->
         <img
             src="/images/white-cat.gif"
             alt="glitter"
             class="absolute bottom-6 right-0 w-24 z-10"
         />
-        <!-- <img
-            src="/images/cute-cat.gif"
-            alt="sticker"
-            class="absolute top-12 right-10 w-24 rotate-12 z-10"
-        /> -->
         <img
             src="/images/heart-cat.gif"
             alt="sticker"
@@ -26,95 +14,33 @@
         />
 
         <!-- Main Desktop View -->
-        <router-view :openWindow="openWindow" />
+        <router-view :openWindow="windowStore.openWindow" />
 
         <!-- Render Open & Visible Windows -->
-        <component
-            v-for="win in visibleWindows"
-            :key="win.name"
-            :is="getComponent(win.name)"
-            :baseZ="win.z"
-            :updateZ="() => bringToFront(win.name)"
-            @close="closeWindow(win.name)"
-            @minimize="toggleWindow(win.name)"
-        />
+        <Suspense>
+            <component
+                v-for="win in windowStore.visibleWindows"
+                :key="win.name"
+                :is="windowStore.getComponent(win.name)"
+                :baseZ="win.z"
+                :updateZ="() => windowStore.bringToFront(win.name)"
+                @close="windowStore.closeWindow(win.name)"
+                @minimize="windowStore.toggleWindow(win.name)"
+            />
+        </Suspense>
 
         <!-- Taskbar -->
         <Taskbar
-            :windows="openWindows"
-            @startApp="openWindow"
-            @toggleWindow="toggleWindow"
+            :windows="windowStore.openWindows"
+            @startApp="windowStore.openWindow"
+            @toggleWindow="windowStore.toggleWindow"
         />
     </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
 import Taskbar from '@/components/Taskbar.vue'
+import { useWindowStore } from '@/stores/windowStore'
 
-// Import semua window
-import AboutWindow from '@/pages/About.vue'
-import SkillWindow from '@/pages/Skill.vue'
-import PathWindow from '@/pages/Path.vue'
-import ProjectWindow from '@/pages/Project.vue'
-import CertificateWindow from '@/pages/Certificate.vue'
-import ContactWindow from '@/pages/Contact.vue'
-import InternetWindow from '@/pages/Internet.vue'
-import NotepadWindow from '@/pages/Notepad.vue'
-import TerminalWindow from '@/pages/Terminal.vue'
-
-const openWindows = ref([])
-const activeZIndex = ref(10)
-
-const bringToFront = (name) => {
-    const win = openWindows.value.find((w) => w.name === name)
-    if (win) {
-        win.z = ++activeZIndex.value
-    }
-}
-
-const windowMap = {
-    about: AboutWindow,
-    skill: SkillWindow,
-    path: PathWindow,
-    project: ProjectWindow,
-    certificate: CertificateWindow,
-    contact: ContactWindow,
-    internet: InternetWindow,
-    notepad: NotepadWindow,
-    terminal: TerminalWindow,
-}
-
-const getComponent = (name) => windowMap[name] || null
-
-const visibleWindows = computed(() =>
-    openWindows.value.filter((w) => !w.minimized)
-)
-
-const openWindow = (name, icon = '/images/icon-folder.png') => {
-    const existing = openWindows.value.find((w) => w.name === name)
-    if (existing) {
-        existing.minimized = false
-        existing.z = ++activeZIndex.value
-    } else {
-        openWindows.value.push({
-            name,
-            label: name.charAt(0).toUpperCase() + name.slice(1),
-            icon,
-            minimized: false,
-            z: ++activeZIndex.value,
-        })
-    }
-}
-
-const closeWindow = (name) => {
-    openWindows.value = openWindows.value.filter((w) => w.name !== name)
-}
-
-const toggleWindow = (name) => {
-    const win = openWindows.value.find((w) => w.name === name)
-    if (win) {
-        win.minimized = !win.minimized
-    }
-}
+const windowStore = useWindowStore()
 </script>
