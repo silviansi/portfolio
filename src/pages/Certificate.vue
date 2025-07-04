@@ -1,25 +1,22 @@
 <template>
     <div
-        class="absolute rounded-md overflow-hidden border-[2px] border-pink-400 bg-white text-black shadow-xl font-['VT323'] flex flex-col z-[999]"
+        class="absolute rounded-md overflow-hidden border-[2px] border-pink-400 bg-white text-pink-900 shadow-xl font-['VT323'] flex flex-col z-[999]"
         :style="computedStyle"
         ref="windowRef"
-        @mousedown="updateZ"
+        @mousedown="(e) => { startDrag(e); updateZ() }"
     >
 
         <!-- Header -->
-        <div
-            class="bg-pink-300 px-4 py-2 flex items-center justify-between cursor-move select-none"
-            @mousedown="startDrag"
-        >
-            <div class="flex gap-2">
-                <div class="w-3 h-3 bg-red-400 rounded-full"></div>
-                <div class="w-3 h-3 bg-yellow-300 rounded-full"></div>
-                <div class="w-3 h-3 bg-green-400 rounded-full"></div>
+        <div class="window-header">
+            <div class="window-controls">
+                <div class="window-dot bg-red-400"></div>
+                <div class="window-dot bg-yellow-300"></div>
+                <div class="window-dot bg-green-400"></div>
             </div>
 
-            <span class="text-lg font-bold">📜 My Certificates</span>
+            <span class="window-title">📜 My Certificates</span>
 
-            <div class="flex gap-2">
+            <div class="window-controls">
                 <MinusIcon class="w-5 h-5 cursor-pointer" @click="$emit('minimize')" />
                 <ArrowsPointingOutIcon class="w-5 h-5 cursor-pointer" @click="toggleMaximize" />
                 <XMarkIcon class="w-5 h-5 cursor-pointer" @click="$emit('close')" />
@@ -65,7 +62,7 @@
 
 <script setup>
 import { ref, reactive, computed, onBeforeUnmount } from 'vue'
-import { MinusIcon, ArrowsPointingOutIcon, XMarkIcon, MagnifyingGlassIcon } from '@heroicons/vue/24/solid'
+import { MinusIcon, ArrowsPointingOutIcon, XMarkIcon } from '@heroicons/vue/24/solid'
 
 defineProps({
     baseZ: Number,
@@ -73,18 +70,20 @@ defineProps({
 })
 
 const windowRef = ref(null)
+const isMaximized = ref(false)
+
 const position = reactive({ x: 100, y: 100 })
-const size = reactive({ width: 960, height: 580 })
+const size = reactive({ width: 960, height: 500 })
+
+const computedStyle = computed(() =>
+    isMaximized.value
+        ? { top: '0', left: '0', width: '100vw', height: '100vh' }
+        : { top: `${position.y}px`, left: `${position.x}px`, width: `${size.width}px`, height: `${size.height}px` }
+)
+
 const isDragging = ref(false)
 let offsetX = 0
 let offsetY = 0
-
-const computedStyle = computed(() => ({
-    top: `${position.y}px`,
-    left: `${position.x}px`,
-    width: `${size.width}px`,
-    height: `${size.height}px`,
-}))
 
 const startDrag = (e) => {
     isDragging.value = true
@@ -104,6 +103,10 @@ const stopDrag = () => {
     isDragging.value = false
     document.removeEventListener('mousemove', onDrag)
     document.removeEventListener('mouseup', stopDrag)
+}
+
+const toggleMaximize = () => {
+    isMaximized.value = !isMaximized.value
 }
 
 onBeforeUnmount(() => {
@@ -150,13 +153,3 @@ const certificates = [
     },
 ]
 </script>
-
-<style scoped>
-::-webkit-scrollbar {
-    width: 6px;
-}
-::-webkit-scrollbar-thumb {
-    background-color: #f472b6;
-    border-radius: 3px;
-}
-</style>

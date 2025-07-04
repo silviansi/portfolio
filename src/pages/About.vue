@@ -7,23 +7,20 @@
     >
 
         <!-- Header -->
-        <div
-        class="bg-pink-300 px-4 py-2 flex items-center justify-between cursor-move select-none"
-        @mousedown="startDrag"
-        >
-        <div class="flex gap-2">
-            <div class="w-3 h-3 bg-red-400 rounded-full"></div>
-            <div class="w-3 h-3 bg-yellow-300 rounded-full"></div>
-            <div class="w-3 h-3 bg-green-400 rounded-full"></div>
-        </div>
+        <div class="window-header">
+            <div class="window-controls">
+                <div class="window-dot bg-red-400"></div>
+                <div class="window-dot bg-yellow-300"></div>
+                <div class="window-dot bg-green-400"></div>
+            </div>
 
-        <span class="text-lg font-bold">💻 About Me</span>
+            <span class="window-title">💻 About Me</span>
 
-        <div class="flex gap-2">
-            <MinusIcon class="w-5 h-5 cursor-pointer" @click="$emit('minimize')" />
-            <ArrowsPointingOutIcon class="w-5 h-5 cursor-pointer" @click="toggleMaximize" />
-            <XMarkIcon class="w-5 h-5 cursor-pointer" @click="$emit('close')" />
-        </div>
+            <div class="window-controls">
+                <MinusIcon class="w-5 h-5 cursor-pointer" @click="$emit('minimize')" />
+                <ArrowsPointingOutIcon class="w-5 h-5 cursor-pointer" @click="toggleMaximize" />
+                <XMarkIcon class="w-5 h-5 cursor-pointer" @click="$emit('close')" />
+            </div>
         </div>
 
         <!-- Content -->
@@ -75,7 +72,7 @@
 
 <script setup>
 import { ref, reactive, computed } from 'vue'
-import { MinusIcon, ArrowsPointingOutIcon, XMarkIcon, MagnifyingGlassIcon } from '@heroicons/vue/24/solid'
+import { MinusIcon, ArrowsPointingOutIcon, XMarkIcon } from '@heroicons/vue/24/solid'
 
 defineProps({
     baseZ: Number,

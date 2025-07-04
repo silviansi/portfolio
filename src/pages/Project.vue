@@ -6,23 +6,20 @@
         @mousedown="(e) => { startDrag(e); updateZ() }"
     >
         <!-- Header -->
-        <div
-        class="bg-pink-300 px-4 py-2 flex items-center justify-between cursor-move select-none"
-        @mousedown="startDrag"
-        >
-        <div class="flex gap-2">
-            <div class="w-3 h-3 bg-red-400 rounded-full"></div>
-            <div class="w-3 h-3 bg-yellow-300 rounded-full"></div>
-            <div class="w-3 h-3 bg-green-400 rounded-full"></div>
-        </div>
+        <div class="window-header">
+            <div class="window-controls">
+                <div class="window-dot bg-red-400"></div>
+                <div class="window-dot bg-yellow-300"></div>
+                <div class="window-dot bg-green-400"></div>
+            </div>
 
-        <span class="text-lg font-bold">💻 Project Folder</span>
+            <span class="window-title">💻 Project Folder</span>
 
-        <div class="flex gap-2">
-            <MinusIcon class="w-5 h-5 cursor-pointer" @click="$emit('minimize')" />
-            <ArrowsPointingOutIcon class="w-5 h-5 cursor-pointer" @click="toggleMaximize" />
-            <XMarkIcon class="w-5 h-5 cursor-pointer" @click="$emit('close')" />
-        </div>
+            <div class="window-controls">
+                <MinusIcon class="w-5 h-5 cursor-pointer" @click="$emit('minimize')" />
+                <ArrowsPointingOutIcon class="w-5 h-5 cursor-pointer" @click="toggleMaximize" />
+                <XMarkIcon class="w-5 h-5 cursor-pointer" @click="$emit('close')" />
+            </div>
         </div>
 
         <!-- Content -->
@@ -94,18 +91,8 @@ const size = reactive({ width: 680, height: 540 })
 
 const computedStyle = computed(() =>
     isMaximized.value
-        ? {
-            top: '0',
-            left: '0',
-            width: '100vw',
-            height: '100vh',
-        }
-        : {
-            top: `${position.y}px`,
-            left: `${position.x}px`,
-            width: `${size.width}px`,
-            height: `${size.height}px`,
-        }
+        ? { top: '0', left: '0', width: '100vw', height: '100vh' }
+        : { top: `${position.y}px`, left: `${position.x}px`, width: `${size.width}px`, height: `${size.height}px` }
 )
 
 let dragging = false
@@ -251,13 +238,3 @@ const projects = ref([
     },
 ])
 </script>
-
-<style scoped>
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-thumb {
-  background-color: #f472b6;
-  border-radius: 3px;
-}
-</style>
