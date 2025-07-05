@@ -1,6 +1,6 @@
 <template>
   <div
-    class="absolute rounded-md overflow-hidden border-[2px] border-pink-400 bg-pink-100 shadow-lg font-[VT323] text-pink-900 flex flex-col"
+    class="window-container flex flex-col"
     :style="{ ...computedStyle, zIndex: baseZ }"
     ref="windowRef"
     @mousedown="(e) => { startDrag(e); updateZ() }"
@@ -88,8 +88,8 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, onMounted, onBeforeUnmount } from 'vue'
-import { MinusIcon, ArrowsPointingOutIcon, XMarkIcon, MagnifyingGlassIcon } from '@heroicons/vue/24/solid'
+import { ref, reactive, computed, onBeforeUnmount } from 'vue'
+import { MinusIcon, ArrowsPointingOutIcon, XMarkIcon } from '@heroicons/vue/24/solid'
 
 defineProps({
   baseZ: Number,

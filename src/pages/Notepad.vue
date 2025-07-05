@@ -1,6 +1,6 @@
 <template>
     <div
-        class="absolute rounded-md overflow-hidden border-[2px] border-pink-400 bg-pink-100 shadow-lg font-[VT323] text-pink-900 z-50"
+        class="window-container"
         :style="{ ...computedStyle, zIndex: baseZ }"
         ref="windowRef"
         @mousedown="($e) => { startDrag($e); updateZ() }"
@@ -8,7 +8,7 @@
         <!-- Toolbar -->
         <div class="window-header">
             <!-- Dots -->
-            <div class="window-flex">
+            <div class="window-controls">
                 <div class="window-dot bg-red-400"></div>
                 <div class="window-dot bg-yellow-300"></div>
                 <div class="window-dot bg-green-400"></div>

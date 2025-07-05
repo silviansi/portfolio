@@ -1,6 +1,6 @@
 <template>
     <div
-        class="absolute rounded-md overflow-hidden border-[2px] border-pink-400 bg-white text-pink-900 shadow-xl font-['VT323'] flex flex-col z-[999]"
+        class="window-container flex flex-col z-20"
         :style="computedStyle"
         ref="windowRef"
         @mousedown="(e) => { startDrag(e); updateZ() }"

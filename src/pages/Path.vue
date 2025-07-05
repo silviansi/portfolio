@@ -1,6 +1,6 @@
 <template>
     <div
-        class="absolute rounded-md overflow-hidden border-[2px] border-pink-400 bg-pink-100 shadow-lg font-[VT323] text-pink-900"
+        class="window-container"
         :style="{ ...computedStyle, zIndex: baseZ }"
         ref="windowRef"
         @mousedown="($e) => { startDrag($e); updateZ() }"

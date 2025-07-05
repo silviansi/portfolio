@@ -1,6 +1,6 @@
 <template>
     <div
-        class="absolute rounded-md overflow-hidden border-2 border-pink-400 bg-pink-100 shadow-lg font-[VT323] text-pink-900 flex flex-col"
+        class="window-container flex flex-col"
         :style="{ ...computedStyle, zIndex: baseZ }"
         ref="windowRef"
         @mousedown="(e) => { startDrag(e); updateZ() }"
@@ -86,7 +86,7 @@ defineProps({
 const windowRef = ref(null)
 const isMaximized = ref(false)
 
-const position = reactive({ x: 140, y: 100 })
+const position = reactive({ x: 100, y: 100 })
 const size = reactive({ width: 680, height: 540 })
 
 const computedStyle = computed(() =>
