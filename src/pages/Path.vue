@@ -3,79 +3,55 @@
         class="window-container"
         :style="{ ...computedStyle, zIndex: baseZ }"
         ref="windowRef"
-        @mousedown="($e) => { startDrag($e); updateZ() }"
+        @mousedown="handleMouseDown"
     >
-        <!-- Window Header -->
+        <!-- Header -->
         <div class="window-header">
-            <div class="flex gap-2">
-                <div class="window-dot bg-red-400"></div>
-                <div class="window-dot bg-yellow-300"></div>
-                <div class="window-dot bg-green-400"></div>
-            </div>
-
             <span class="window-title">📁 My Path</span>
 
             <div class="window-controls">
-                <MinusIcon class="w-5 h-5 cursor-pointer" @click="$emit('minimize')" />
-                <ArrowsPointingOutIcon class="w-5 h-5 cursor-pointer" @click="toggleMaximize" />
-                <XMarkIcon class="w-5 h-5 cursor-pointer" @click="$emit('close')" />
+                <MinusIcon class="w-5 h-5 cursor-pointer" title="Minimize" @click="$emit('minimize')" />
+                <ArrowsPointingOutIcon class="w-5 h-5 cursor-pointer" title="Maximize" @click="toggleMaximize" />
+                <XMarkIcon class="w-5 h-5 cursor-pointer" title="Close" @click="$emit('close')" />
             </div>
         </div>
 
-        <!-- Window Content -->
+        <!-- Content -->
         <div class="p-6 max-h-[85vh] overflow-y-auto">
             <section class="max-w-5xl mx-auto px-2 grid md:grid-cols-2 gap-10">
                 <!-- Internship & Trainings -->
                 <div>
-                <h2 class="text-2xl font-['Press_Start_2P'] uppercase text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 pb-1 mb-6 drop-shadow-[2px_2px_0_rgba(0,0,0,0.3)]">
-                    Internship & Trainings
-                </h2>
-                <div class="space-y-6 border-l-4 border-dashed border-fuchsia-300 pl-4">
-                    <div class="experience-item">
-                    <h3 class="text-xl font-semibold">Full Stack Web Developer - Trainings</h3>
-                    <p class="text-base text-fuchsia-500">PT. Arkatama Multi Solusindo (Feb 2024 – Jul 2024)</p>
-                    <p class="mt-1 text-justify">
-                        Studied web development using Laravel framework and MySQL database.
-                        Worked on a final group project, contributing as a front-end developer.
-                    </p>
+                    <h2 class="text-xl font-['Press_Start_2P'] uppercase text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 pb-1 mb-6 drop-shadow-[2px_2px_0_rgba(0,0,0,0.3)]">
+                        Internship & Trainings
+                    </h2>
+                    <div class="space-y-6">
+                        <div
+                            class="experience-item"
+                            v-for="(item, i) in experiences"
+                            :key="i"
+                        > 
+                            <h3 class="text-xl font-semibold">├── {{ item.title }}</h3>
+                            <p class="text-base text-fuchsia-500">{{ item.company }} ({{ item.duration }})</p>
+                            <p class="mt-1 text-justify">{{ item.desc }}</p>
+                        </div>
                     </div>
-                    <div class="experience-item">
-                    <h3 class="text-xl font-semibold">Full Stack Web Developer - Internship</h3>
-                    <p class="text-base text-fuchsia-500">PT. Pabrik Gula Candi Baru (Sep 2023 – Des 2023)</p>
-                    <p class="mt-1 text-justify">
-                        Designed and implemented a web-based loan and profit-sharing system.
-                    </p>
-                    </div>
-                    <div class="experience-item">
-                    <h3 class="text-xl font-semibold">Web Developer Program - Trainings</h3>
-                    <p class="text-base text-fuchsia-500">PT. Hacktivate Teknologi Indonesia (Feb 2023 – Jul 2023)</p>
-                    <p class="mt-1 text-justify">
-                        Built interactive web interfaces and completed a final project using JavaScript.
-                    </p>
-                    </div>
-                </div>
                 </div>
 
                 <!-- Education -->
                 <div>
-                <h2 class="text-2xl font-['Press_Start_2P'] uppercase text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 pb-1 mb-6 drop-shadow-[2px_2px_0_rgba(0,0,0,0.3)]">
+                <h2 class="text-xl font-['Press_Start_2P'] uppercase text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 pb-1 mb-6 drop-shadow-[2px_2px_0_rgba(0,0,0,0.3)]">
                     Education
                 </h2>
-                <div class="space-y-6 border-l-4 border-dashed border-pink-300 pl-4">
-                    <div class="experience-item">
-                    <h3 class="text-xl font-semibold">Universitas Negeri Surabaya</h3>
-                    <p class="text-base text-pink-500">S1 Teknik Informatika (2020 – 2025)</p>
-                    <p class="text-pink-700 text-sm">GPA: 3.81</p>
-                    <p class="mt-1 text-justify">
-                        Focused on Data Science and Web Development. Built a web-based stunting detection system using Random Forest.
-                    </p>
-                    </div>
-                    <div class="experience-item">
-                    <h3 class="text-xl font-semibold">SMA Negeri 1 Krembung</h3>
-                    <p class="text-base text-pink-500">Acceleration Science Program (2018 – 2020)</p>
-                    <p class="mt-1 text-justify">
-                        Completed high school in 2 years through the Acceleration Program.
-                    </p>
+                <div class="space-y-6">
+                    <div
+                        class="experience-item"
+                        v-for="(edu, i) in educations"
+                        :key="i"
+                    >
+                        <h3 class="text-xl font-semibold">├── {{ edu.school }}</h3>
+                        <p class="text-base text-pink-500">{{ edu.major }}</p>
+                        <p v-if="edu.gpa" class="text-pink-700 text-sm">GPA: {{ edu.gpa }}</p>
+                        <p class="mt-1 text-justify">{{ edu.desc }}</p>
                     </div>
                 </div>
                 </div>
@@ -85,19 +61,63 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, onBeforeUnmount } from 'vue'
 import { MinusIcon, ArrowsPointingOutIcon, XMarkIcon } from '@heroicons/vue/24/solid'
 
-defineProps({
+const { baseZ, updateZ } = defineProps({
     baseZ: Number,
     updateZ: Function,
 })
 
+const handleMouseDown = (e) => {
+    startDrag(e)
+    updateZ()
+}
+
+// Data for Internship & Trainings
+const experiences = [
+    {
+        title: 'Full Stack Web Developer - Trainings',
+        company: 'PT. Arkatama Multi Solusindo',
+        duration: 'Feb 2024 – Jul 2024',
+        desc: 'Studied web development using Laravel framework and MySQL database. Worked on a final group project, contributing as a front-end developer, responsible for implementing responsive user interfaces and ensuring seamless user experience.',
+    },
+    {
+        title: 'Full Stack Web Developer - Internship',
+        company: 'PT. Pabrik Gula Candi Baru',
+        duration: 'Sep 2023 – Des 2023',
+        desc: 'Assisted in merging multiple Excel data files and preparing presentation materials. Designed and implemented a web-based loan and profit-sharing system, from wireframe to web development, focusing on usability and functionality.',
+    },
+    {
+        title: 'Web Developer Program - Trainings',
+        company: 'PT. Hacktivate Teknologi Indonesia',
+        duration: 'Feb 2023 – Jul 2023',
+        desc: 'Learned full-stack web development fundamentals from scratch, including HTML, CSS, and JavaScript. Built several interactive web interfaces and completed a final project using pure JavaScript without any frameworks, focusing on clean code and responsive design.',
+    }
+]
+
+// Data for Education
+const educations = [
+    {
+        school: 'Universitas Negeri Surabaya',
+        major: 'S1 Teknik Informatika',
+        gpa: '3.81',
+        desc: 'Focused on Data Science and Web Development, with in-depth study of programming, data analysis, and statistical modeling. Completed a thesis project on building a web-based stunting detection system for toddlers using the Random Forest algorithm, combining health data insights with predictive modeling techniques.',
+    },
+    {
+        school: 'SMA Negeri 1 Krembung',
+        major: 'Acceleration Science Program',
+        desc: 'Completed high school education in just 2 years through the Acceleration Program, designed for students with outstanding academic performance and high learning capacity. Gained a solid foundation in science and mathematics with a strong emphasis on discipline, critical thinking, and time management.',
+    }
+]
+
+// Window behavioe state
 const isMaximized = ref(false)
 const windowRef = ref(null)
 const position = reactive({ x: 120, y: 100 })
 const size = reactive({ width: 800, height: 500 })
 
+// Compute style based on maximized state
 const computedStyle = computed(() =>
     isMaximized.value
         ? { top: '0', left: '0', width: '100vw', height: '100vh' }
@@ -133,6 +153,10 @@ const stopDrag = () => {
 const toggleMaximize = () => {
     isMaximized.value = !isMaximized.value
 }
+
+onBeforeUnmount(() => {
+    stopDrag()
+})
 </script>
 
 <style scoped>
