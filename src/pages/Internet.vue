@@ -3,25 +3,17 @@
     class="window-container flex flex-col"
     :style="{ ...computedStyle, zIndex: baseZ }"
     ref="windowRef"
-    @mousedown="(e) => { startDrag(e); updateZ() }"
+    @mousedown="handleMouseDown"
   >
     <!-- Fake Browser Header -->
     <div class="window-header">
-      <!-- Mac-style Control Dots -->
-      <div class="window-controls">
-        <div class="window-dot bg-red-400"></div>
-        <div class="window-dot bg-yellow-300"></div>
-        <div class="window-dot bg-green-400"></div>
-      </div>
 
-      <!-- Fake Browser Title -->
       <span class="window-title">🌐 Internet Explorer 2000</span>
 
-      <!-- Real Controls -->
       <div class="window-controls">
-        <MinusIcon class="w-5 h-5 cursor-pointer" @click="$emit('minimize')" />
-        <ArrowsPointingOutIcon class="w-5 h-5 cursor-pointer" @click="toggleMaximize" />
-        <XMarkIcon class="w-5 h-5 cursor-pointer" @click="$emit('close')" />
+        <MinusIcon class="w-5 h-5 cursor-pointer" title="Minimize" @click="$emit('minimize')" />
+        <ArrowsPointingOutIcon class="w-5 h-5 cursor-pointer" title="Maximize" @click="toggleMaximize" />
+        <XMarkIcon class="w-5 h-5 cursor-pointer" title="Close" @click="$emit('close')" />
       </div>
     </div>
 
@@ -91,10 +83,15 @@
 import { ref, reactive, computed, onBeforeUnmount } from 'vue'
 import { MinusIcon, ArrowsPointingOutIcon, XMarkIcon } from '@heroicons/vue/24/solid'
 
-defineProps({
-  baseZ: Number,
-  updateZ: Function,
+const { baseZ, updateZ } = defineProps({
+    baseZ: Number,
+    updateZ: Function,
 })
+
+const handleMouseDown = (e) => {
+    startDrag(e)
+    updateZ()
+}
 
 const windowRef = ref(null)
 const isMaximized = ref(false)

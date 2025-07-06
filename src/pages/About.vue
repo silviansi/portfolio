@@ -3,29 +3,23 @@
         class="window-container" 
         :style="{ ...computedStyle, zIndex: baseZ }"
         ref="windowRef"
-        @mousedown="($e) => { startDrag($e); updateZ() }"
+        @mousedown="handleMouseDown"
     >
 
         <!-- Header -->
         <div class="window-header">
-            <div class="window-controls">
-                <div class="window-dot bg-red-400"></div>
-                <div class="window-dot bg-yellow-300"></div>
-                <div class="window-dot bg-green-400"></div>
-            </div>
-
             <span class="window-title">💻 About Me</span>
 
             <div class="window-controls">
-                <MinusIcon class="w-5 h-5 cursor-pointer" @click="$emit('minimize')" />
-                <ArrowsPointingOutIcon class="w-5 h-5 cursor-pointer" @click="toggleMaximize" />
-                <XMarkIcon class="w-5 h-5 cursor-pointer" @click="$emit('close')" />
+                <MinusIcon class="w-5 h-5 cursor-pointer" title="Minimize" @click="$emit('minimize')" />
+                <ArrowsPointingOutIcon class="w-5 h-5 cursor-pointer" title="Maximize" @click="toggleMaximize" />
+                <XMarkIcon class="w-5 h-5 cursor-pointer" title="Close" @click="$emit('close')" />
             </div>
         </div>
 
         <!-- Content -->
         <div class="p-6 text-black">
-            <div class="max-w-4xl mx-auto border border-pink-500 p-6 bg-[#f8f7f2] bg-grain shadow-md rounded-2xl flex flex-col md:flex-row gap-6 items-start">
+            <div class="relative max-w-3xl mx-auto border border-pink-500 p-6 bg-[#f8f7f2] bg-grain shadow-md rounded-2xl flex flex-col md:flex-row gap-6 items-start">
 
                 <!-- Left Column: Photo + Contact -->
                 <div class="flex flex-col items-center gap-4 w-full md:w-1/3">
@@ -71,24 +65,31 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, onBeforeUnmount } from 'vue'
 import { MinusIcon, ArrowsPointingOutIcon, XMarkIcon } from '@heroicons/vue/24/solid'
 
-defineProps({
+
+const { baseZ, updateZ } = defineProps({
     baseZ: Number,
     updateZ: Function,
 })
 
+const handleMouseDown = (e) => {
+    startDrag(e)
+    updateZ()
+}
+
 const isMaximized = ref(false)
 const windowRef = ref(null)
 const position = reactive({ x: 100, y: 100 })
-const size = reactive({ width: 600, height: 200 })
+const size = reactive({ width: 600, height: 380 })
 
 const computedStyle = computed(() => {
     return isMaximized.value
-        ? { top: '0', left: '0', width: '100vw', height: '100vh', zIndex: 50 }
-        : { top: position.y + 'px', left: position.x + 'px', width: size.width + 'px', zIndex: 50 }
+        ? { top: '0', left: '0', width: '100vw', height: '100vh' }
+        : { top: `${position.y}px`, left: `${position.x}px`, width: `${size.width}px`, height: `${size.height}px` }
 })
+
 
 // Drag logic
 let dragging = false
@@ -119,6 +120,10 @@ const stopDrag = () => {
 const toggleMaximize = () => {
     isMaximized.value = !isMaximized.value
 }
+
+onBeforeUnmount(() => {
+    stopDrag()
+})
 </script>
 
 <style scoped>

@@ -3,24 +3,21 @@
         class="window-container flex flex-col"
         :style="{ ...computedStyle, zIndex: baseZ }"
         ref="windowRef"
-        @mousedown="(e) => { startDrag(e); updateZ() }"
+        @mousedown="handleMouseDown"
     >
         <!-- Header -->
         <div class="window-header">
-            <div class="window-controls">
-                <div class="window-dot bg-red-400"></div>
-                <div class="window-dot bg-yellow-300"></div>
-                <div class="window-dot bg-green-400"></div>
-            </div>
+
             <span class="window-title">📁 Contact Directory</span>
+
             <div class="window-controls">
-                <MinusIcon class="w-5 h-5 cursor-pointer" @click="$emit('minimize')" />
-                <ArrowsPointingOutIcon class="w-5 h-5 cursor-pointer" @click="toggleMaximize" />
-                <XMarkIcon class="w-5 h-5 cursor-pointer" @click="$emit('close')" />
+                <MinusIcon class="w-5 h-5 cursor-pointer" title="Minimize" @click="$emit('minimize')" />
+                <ArrowsPointingOutIcon class="w-5 h-5 cursor-pointer" title="Maximize" @click="toggleMaximize" />
+                <XMarkIcon class="w-5 h-5 cursor-pointer" title="Close" @click="$emit('close')" />
             </div>
         </div>
 
-        <!-- Content: File Explorer -->
+        <!-- Content -->
         <div class="flex-1 overflow-y-auto bg-gradient-to-br from-pink-50 to-pink-100 p-6 font-mono text-sm text-pink-800">
             <p class="mb-4">📁 <strong>Contact</strong></p>
             <ul class="space-y-3 pl-6">
@@ -33,10 +30,6 @@
             </ul>
         </div>
 
-        <!-- Footer -->
-        <div class="bg-pink-300 px-4 py-2 text-center text-xs text-pink-900">
-            💌 Handcrafted with love & glitter ✨
-        </div>
     </div>
 </template>
 
@@ -44,10 +37,15 @@
 import { ref, reactive, computed, onBeforeUnmount } from 'vue'
 import { MinusIcon, ArrowsPointingOutIcon, XMarkIcon } from '@heroicons/vue/24/solid'
 
-defineProps({
+const { baseZ, updateZ } = defineProps({
     baseZ: Number,
     updateZ: Function,
 })
+
+const handleMouseDown = (e) => {
+    startDrag(e)
+    updateZ()
+}
 
 // Contact Data
 const contacts = [

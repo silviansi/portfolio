@@ -3,16 +3,13 @@
         class="window-container flex flex-col"
         :style="{ ...computedStyle, zIndex: baseZ }"
         ref="windowRef"
-        @mousedown="(e) => { startDrag(e); updateZ() }"
+        @mousedown="handleMouseDown"
     >
         <!-- Header -->
         <div class="window-header">
-            <div class="window-controls">
-                <div class="window-dot bg-red-400"></div>
-                <div class="window-dot bg-yellow-300"></div>
-                <div class="window-dot bg-green-400"></div>
-            </div>
+
             <span class="window-title">🖥️ Terminal</span>
+
             <div class="window-controls">
                 <MinusIcon class="w-5 h-5 cursor-pointer" @click="$emit('minimize')" />
                 <ArrowsPointingOutIcon class="w-5 h-5 cursor-pointer" @click="toggleMaximize" />
@@ -42,13 +39,19 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, onBeforeUnmount } from 'vue'
+import { ref, reactive, computed, onBeforeUnmount, h } from 'vue'
 import { MinusIcon, ArrowsPointingOutIcon, XMarkIcon } from '@heroicons/vue/24/solid'
 
-defineProps({
+const { baseZ, updateZ } = defineProps({
     baseZ: Number,
     updateZ: Function,
 })
+
+const handleMouseDown = (e) => {
+    startDrag(e)
+    updateZ()
+}
+
 const input = ref('')
 const output = ref([
     '✨ Welcome to BerbieOS Terminal!',
